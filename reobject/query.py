@@ -18,3 +18,8 @@ class QuerySet(list):
         return type(self)(
             sorted(self, key=signed_attrgetter(*args))
         )
+
+    def reverse(self):
+        return type(self)(
+            reversed(self)
+        )
