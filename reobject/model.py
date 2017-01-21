@@ -1,4 +1,4 @@
-from reobject.backends.memory import Manager, ManagerDescriptor
+from reobject.manager import Manager, ManagerDescriptor
 
 class ModelBase(type):
     """
