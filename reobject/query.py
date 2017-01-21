@@ -1,3 +1,5 @@
+from reobject.utils import signed_attrgetter
+
 class QuerySet(list):
     def __init__(self, *args, **kwargs):
         super(QuerySet, self).__init__(*args, **kwargs)
@@ -8,3 +10,8 @@ class QuerySet(list):
     def delete(self):
         for item in self:
             item.delete()
+
+    def order_by(self, *args):
+        return sorted(
+            self, key=signed_attrgetter(*args)
+        )
