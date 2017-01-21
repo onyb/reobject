@@ -1,4 +1,5 @@
 from reobject.query import QuerySet
+from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 
 class ManagerDescriptor(object):
     def __init__(self):
@@ -36,11 +37,21 @@ class Manager(object):
         result_set = self.filter(**kwargs)
 
         if len(result_set) == 0:
-            return None
+            raise DoesNotExist(
+                '{model} object matching query does not exist.'.format(
+                    model=self.model.__name__
+                )
+            )
+
         elif len(result_set) == 1:
             return result_set[0]
         else:
-            raise Exception('MultipleObjectsReturned')
+            raise MultipleObjectsReturned(
+                'get() returned more than one {model} object '
+                '-- it returned {num}!'.format(
+                    model=self.model.__name__, num=len(result_set)
+                )
+            )
 
     def create(self, **kwargs):
         obj = self.model(**kwargs)
