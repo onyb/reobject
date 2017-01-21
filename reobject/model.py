@@ -1,0 +1,37 @@
+from reobject.backends.memory import Manager, ManagerDescriptor
+
+class ModelBase(type):
+    """
+    Metaclass for all models
+    """
+    def __new__(cls, name, bases, attrs):
+        super_new = super(ModelBase, cls).__new__
+
+        parents = [base for base in bases if isinstance(base, ModelBase)]
+        if not parents:
+            return super_new(cls, name, bases, attrs)
+        else:
+            attrs['objects'] = ManagerDescriptor()
+            return super_new(cls, name, bases, attrs)
+
+
+class Model(object, metaclass=ModelBase):
+    @classmethod
+    def _get_cls(cls):
+        return cls
+
+    @property
+    def id(self):
+        return id(self)
+
+    @property
+    def pk(self):
+        return self.id
+
+    def delete(self):
+        type(self).objects._delete(self)
+
+    def __repr__(self):
+        return '<{model}: {id}>'.format(
+            model=self.__class__.__name__, id=self.id
+        )
