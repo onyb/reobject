@@ -68,7 +68,7 @@ class Manager(object):
     def none(self):
         return EmptyQuerySet()
 
-    def clear(self):
+    def _clear(self):
         self._object_store.clear()
 
     def _delete(self, obj):
