@@ -11,6 +11,9 @@ class QuerySet(list):
         for item in self:
             item.delete()
 
+    def exists(self):
+        return bool(self)
+
     def order_by(self, *args):
         return sorted(
             self, key=signed_attrgetter(*args)
