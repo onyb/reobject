@@ -11,4 +11,6 @@ python:
   - "nightly"
   - "pypy3"
 
+install: pip install -r test-requirements.txt
+
 script: pytest
