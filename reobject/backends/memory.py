@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from reobject.query import QuerySet
+from reobject.query import QuerySet, EmptyQuerySet
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 
 class ManagerDescriptor(object):
@@ -64,6 +64,9 @@ class Manager(object):
 
     def all(self):
         return QuerySet(self._object_store)
+
+    def none(self):
+        return EmptyQuerySet()
 
     def clear(self):
         self._object_store.clear()

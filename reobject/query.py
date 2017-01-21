@@ -37,3 +37,11 @@ class QuerySet(list):
         return type(self)(
             map(cmp(*attrs), self)
         )
+
+    def none(self):
+        return EmptyQuerySet()
+
+
+class EmptyQuerySet(QuerySet):
+    def __init__(self, *args, **kwargs):
+        super(QuerySet, self).__init__(*args, **kwargs)
