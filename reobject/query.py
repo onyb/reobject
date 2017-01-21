@@ -31,3 +31,9 @@ class QuerySet(list):
             )
             for obj in map(cmp(*attrs), self)
         )
+
+    def values_list(self, *attrs):
+        # TODO: Allow order_by on values_list
+        return type(self)(
+            map(cmp(*attrs), self)
+        )
