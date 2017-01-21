@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from reobject.query import QuerySet
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 
@@ -55,6 +57,8 @@ class Manager(object):
 
     def create(self, **kwargs):
         obj = self.model(**kwargs)
+        obj.created = obj.updated = datetime.utcnow()
+
         self._object_store.add(obj)
         return obj
 
