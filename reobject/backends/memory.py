@@ -19,7 +19,7 @@ class ManagerDescriptor(object):
 
 class Manager(object):
     def __init__(self, model):
-        self._memory = set()
+        self._object_store = set()
         self.model = model
 
     def __contains__(self, item):
@@ -30,7 +30,7 @@ class Manager(object):
 
         return QuerySet(filter(
             lambda x: all([getattr(x, k) == v for k, v in kwargs.items()]),
-            self._memory
+            self._object_store
         ))
 
     def get(self, **kwargs):
@@ -55,14 +55,14 @@ class Manager(object):
 
     def create(self, **kwargs):
         obj = self.model(**kwargs)
-        self._memory.add(obj)
+        self._object_store.add(obj)
         return obj
 
     def all(self):
-        return QuerySet(self._memory)
+        return QuerySet(self._object_store)
 
     def clear(self):
-        self._memory.clear()
+        self._object_store.clear()
 
     def _delete(self, obj):
-        self._memory.remove(obj)
+        self._object_store.remove(obj)
