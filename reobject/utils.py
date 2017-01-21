@@ -6,17 +6,16 @@ def signed_attrgetter(*items):
     if len(items) == 1:
         attr = items[0]
         def g(obj):
-            return resolve_attr(obj, attr)
+            return resolve_signed_attr(obj, attr)
     else:
         def g(obj):
-            return tuple(resolve_attr(obj, attr) for attr in items)
+            return tuple(resolve_signed_attr(obj, attr) for attr in items)
     return g
 
-def resolve_attr(obj, attr):
+def resolve_signed_attr(obj, attr):
     reverse = attr.startswith('-')
     attr = attr.lstrip('-')
 
     for name in attr.split("__"): # Django-style attribute access
         obj = getattr(obj, name)
     return obj if not reverse else -obj
-
