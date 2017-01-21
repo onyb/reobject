@@ -15,6 +15,6 @@ class QuerySet(list):
         return bool(self)
 
     def order_by(self, *args):
-        return sorted(
-            self, key=signed_attrgetter(*args)
+        return type(self)(
+            sorted(self, key=signed_attrgetter(*args))
         )
