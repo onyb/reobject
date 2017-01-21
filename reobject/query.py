@@ -1,4 +1,4 @@
-from reobject.utils import signed_attrgetter
+from reobject.utils import cmp
 
 class QuerySet(list):
     def __init__(self, *args, **kwargs):
@@ -14,12 +14,20 @@ class QuerySet(list):
     def exists(self):
         return bool(self)
 
-    def order_by(self, *args):
+    def order_by(self, *attrs):
         return type(self)(
-            sorted(self, key=signed_attrgetter(*args))
+            sorted(self, key=cmp(*attrs))
         )
 
     def reverse(self):
         return type(self)(
             reversed(self)
+        )
+
+    def values(self, *attrs):
+        return type(self)(
+            dict(
+                zip(attrs, obj)
+            )
+            for obj in map(cmp(*attrs), self)
         )
