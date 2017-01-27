@@ -112,3 +112,9 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(objs[0].r, 4)
 
         self.assertEqual(SomeModel.objects.filter(q=3, r=3), EmptyQuerySet())
+
+    def test_count(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        self.assertEqual(SomeModel.objects.count(), 2)

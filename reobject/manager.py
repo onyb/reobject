@@ -66,6 +66,9 @@ class Manager(object):
     def all(self):
         return QuerySet(self._object_store)
 
+    def count(self):
+        return len(self._object_store)
+
     def none(self):
         return EmptyQuerySet()
 
