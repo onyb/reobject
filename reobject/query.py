@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from reobject.utils import cmp
 
 
@@ -12,8 +14,21 @@ class QuerySet(list):
         for item in self:
             item.delete()
 
+    def distinct(self, *attrs):
+        meta = [
+            (cmp(*attrs)(obj), obj)
+            for obj in self.reverse()
+        ]
+
+        return type(self)(
+            OrderedDict(meta).values()
+        )
+
     def exists(self):
         return bool(self)
+
+    def none(self):
+        return EmptyQuerySet()
 
     def order_by(self, *attrs):
         return type(self)(
@@ -38,9 +53,6 @@ class QuerySet(list):
         return type(self)(
             map(cmp(*attrs), self)
         )
-
-    def none(self):
-        return EmptyQuerySet()
 
 
 class EmptyQuerySet(QuerySet):
