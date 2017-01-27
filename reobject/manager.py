@@ -1,7 +1,8 @@
 from datetime import datetime
 
-from reobject.query import QuerySet, EmptyQuerySet
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
+from reobject.query import QuerySet, EmptyQuerySet
+
 
 class ManagerDescriptor(object):
     def __init__(self):

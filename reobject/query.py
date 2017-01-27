@@ -1,5 +1,6 @@
 from reobject.utils import cmp
 
+
 class QuerySet(list):
     def __init__(self, *args, **kwargs):
         super(QuerySet, self).__init__(*args, **kwargs)

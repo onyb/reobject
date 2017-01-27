@@ -1,15 +1,17 @@
-from datetime import datetime
 import unittest
+from datetime import datetime
 
-from reobject.model import Model
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
+from reobject.model import Model
 from reobject.query import EmptyQuerySet
+
 
 class SomeModel(Model):
     def __init__(self, p, q, r):
         self.p = p
         self.q = q
         self.r = r
+
 
 class TestQuery(unittest.TestCase):
     def setUp(self):

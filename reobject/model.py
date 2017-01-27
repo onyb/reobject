@@ -1,9 +1,11 @@
-from reobject.manager import Manager, ManagerDescriptor
+from reobject.manager import ManagerDescriptor
+
 
 class ModelBase(type):
     """
     Metaclass for all models
     """
+
     def __new__(cls, name, bases, attrs):
         super_new = super(ModelBase, cls).__new__
 
