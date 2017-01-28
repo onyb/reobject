@@ -33,6 +33,10 @@ class Model(object, metaclass=ModelBase):
     def delete(self):
         type(self).objects._delete(self)
 
+    @property
+    def _attrs(self):
+        return set(self.__dict__.keys()) | {'id'}
+
     def __repr__(self):
         return '<{model}: {id}>'.format(
             model=self.__class__.__name__, id=self.id

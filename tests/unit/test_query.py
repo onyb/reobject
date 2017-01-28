@@ -64,11 +64,6 @@ class TestQuerySet(unittest.TestCase):
             ])
         )
 
-    def test_order_by_reverse(self):
-        SomeModel.objects.create(p='foo', q=3)
-        SomeModel.objects.create(p='foo', q=1)
-        SomeModel.objects.create(p='foo', q=2)
-
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values_list('q'),
             QuerySet([
@@ -77,6 +72,9 @@ class TestQuerySet(unittest.TestCase):
                 (1,)
             ])
         )
+
+        with self.assertRaises(AttributeError):
+            SomeModel.objects.filter().order_by()
 
     def test_reverse(self):
         SomeModel.objects.create(p='foo', q=1)
@@ -101,12 +99,45 @@ class TestQuerySet(unittest.TestCase):
 
     def test_values(self):
         SomeModel.objects.create(p='foo', q=1)
-        SomeModel.objects.create(p='foo', q=2)
+        SomeModel.objects.create(p='bar', q=2)
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values('q'),
             QuerySet([
                 {'q': 2},
                 {'q': 1},
+            ])
+        )
+
+        self.assertEqual(
+            SomeModel.objects.filter().order_by('-q').values('p', 'q'),
+            QuerySet([
+                {'q': 2, 'p': 'bar'},
+                {'q': 1, 'p': 'foo'},
+            ])
+        )
+
+        self.assertSetEqual(
+            set(SomeModel.objects.filter().order_by('-q').values()[0].keys()),
+            {'p', 'q', 'created', 'updated', 'id'}
+        )
+
+    def test_values_list(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        self.assertEqual(
+            SomeModel.objects.filter().order_by('-q').values_list('p', 'q'),
+            QuerySet([
+                ('bar', 2,),
+                ('foo', 1,)
+            ])
+        )
+
+        self.assertEqual(
+            SomeModel.objects.filter().order_by('-q').values_list('q', 'p'),
+            QuerySet([
+                (2, 'bar',),
+                (1, 'foo',)
             ])
         )
