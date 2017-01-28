@@ -18,6 +18,17 @@ class TestQuerySet(unittest.TestCase):
     def tearDown(self):
         SomeModel.objects._clear()
 
+    def test_pipe(self):
+        SomeModel.objects.create(p='foo')
+        SomeModel.objects.create(p='bar')
+
+        self.assertEqual(
+            (
+                SomeModel.objects.filter(p='foo') | SomeModel.objects.filter(p='bar')
+            ).order_by('q'),
+            SomeModel.objects.all().order_by('q')
+        )
+
     def test_count(self):
         SomeModel.objects.create(p='foo')
         SomeModel.objects.create(p='bar')

@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from itertools import chain
 
 from reobject.utils import cmp
 
@@ -10,6 +11,11 @@ class QuerySet(list):
     @property
     def _attrs(self):
         return self[0]._attrs if self.exists() else set()
+
+    def __or__(self, other):
+        return type(self)(
+            chain(self, other)
+        ).distinct('id')
 
     def count(self):
         return len(self)
