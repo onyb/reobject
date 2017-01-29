@@ -1,3 +1,3 @@
-from reobject.query.Q import Q
-from reobject.query.QuerySet import EmptyQuerySet
-from reobject.query.QuerySet import QuerySet
+from reobject.query.parser import Q
+from reobject.query.queryset import EmptyQuerySet
+from reobject.query.queryset import QuerySet
