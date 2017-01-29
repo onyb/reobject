@@ -14,14 +14,10 @@ class Q(object):
     def __new__(cls, *args, **kwargs):
         base_Q_obj = super(Q, cls).__new__(cls)
 
-        if len(kwargs) == 1:
+        if len(kwargs) in [0, 1]:
             return base_Q_obj
         else:
-            return reduce(
-                bitwise_and,
-                starmap(lambda k, v: cls.__new__(cls, k=v), kwargs.items()),
-                base_Q_obj
-            )
+            raise Exception('Multiple kwargs disallowed')
 
     def __init__(self, **kwargs):
         attr, self.value = list(kwargs.items())[0]
@@ -60,9 +56,9 @@ class Q(object):
             (value,) = cmp(self.attr)(obj)
 
             if self.verb:
-                value = self.apply_verb(value)
-
-            return value
+                return self.apply_verb(value)
+            else:
+                return value == self.value
 
         self.comparator = g
         return g
