@@ -1,7 +1,3 @@
-from functools import reduce
-from itertools import starmap
-from operator import and_ as bitwise_and
-
 from reobject.utils import cmp
 
 
@@ -31,20 +27,26 @@ class Q(object):
             self.verb = None
 
     def __and__(self, other):
-        base_Q_obj = Q.__new__(type(self))
+        base_Q_obj = Q.get_base_q()
         base_Q_obj.comparator = lambda obj: self.comparator(obj) and \
                                             other.comparator(obj)
         return base_Q_obj
 
     def __or__(self, other):
-        base_Q_obj = Q.__new__(type(self))
+        base_Q_obj = Q.get_base_q()
         base_Q_obj.comparator = lambda obj: self.comparator(obj) or \
                                             other.comparator(obj)
         return base_Q_obj
 
     def __invert__(self):
-        base_Q_obj = Q.__new__(type(self))
+        base_Q_obj = Q.get_base_q()
         base_Q_obj.comparator = lambda obj: not self.comparator(obj)
+        return base_Q_obj
+
+    @classmethod
+    def get_base_q(cls):
+        base_Q_obj = super(Q, cls).__new__(cls)
+        base_Q_obj.comparator = lambda x: True
         return base_Q_obj
 
     @property

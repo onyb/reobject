@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
-from reobject.query import QuerySet, EmptyQuerySet
+from reobject.query import Q, QuerySet, EmptyQuerySet
 
 
 class ManagerDescriptor(object):
@@ -29,10 +29,12 @@ class Manager(object):
         return bool(self.get(name=item))
 
     def filter(self, **kwargs):
-        # Structure is inspired from Django ORM
+        base_Q_obj = Q.get_base_q()
+        for k, v in kwargs.items():
+            base_Q_obj = base_Q_obj & Q(**{k: v})
 
         return QuerySet(filter(
-            lambda x: all([getattr(x, k) == v for k, v in kwargs.items()]),
+            base_Q_obj.comparator,
             self._object_store
         ))
 
