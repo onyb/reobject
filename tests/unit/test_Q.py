@@ -110,7 +110,7 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__lte=6)
         self.assertFalse(q_obj.comparator(obj))
 
-    def test_nested_endswith(self):
+    def test_nested_startswith(self):
         q_obj = Q(secret__gem__startswith='rub')
         obj = SomeModel.objects.create()
         self.assertTrue(q_obj.comparator(obj))
