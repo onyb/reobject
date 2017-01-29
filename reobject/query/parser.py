@@ -68,14 +68,21 @@ class Q(object):
         self._comparator_func = g
 
     def apply_verb(self, value):
-        return {
-            'contains': self.value in value,
-            'endswith': value.endswith(self.value),
-            'gt': value > self.value,
-            'gte': value >= self.value,
-            'in': value in self.value,
-            'isnull': not value,
-            'lt': value < self.value,
-            'lte': value <= self.value,
-            'startswith': value.startswith(self.value)
-        }[self.verb]
+        if self.verb == 'contains':
+            return self.value in value
+        elif self.verb == 'endswith':
+            return value.endswith(self.value)
+        elif self.verb == 'gt':
+            return value > self.value
+        elif self.verb == 'gte':
+            return value >= self.value
+        elif self.verb == 'in':
+            return value in self.value
+        elif self.verb == 'isnull':
+            return not value
+        elif self.verb == 'lt':
+            return value < self.value
+        elif self.verb == 'lte':
+            return value <= self.value
+        elif self.verb == 'startswith':
+            return value.startswith(self.value)
