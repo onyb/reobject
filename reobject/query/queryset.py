@@ -60,7 +60,6 @@ class QuerySet(list):
         if not attrs:
             attrs = self._attrs
 
-        print(attrs)
         return type(self)(
             dict(
                 zip(attrs, obj)
