@@ -50,4 +50,4 @@ Out: ['The Go Programming Language', 'The C Programming Language', 'The AWK Prog
 
 ### Contributing
 
-Want to help? Please review the [contributing guidelines](CONTRIBUTING.md), and take a look at some [good first bugs](https://github.com/onyb/reobject/labels/%3A%22bitesize%22)!
+Want to help? Please review the [contributing guidelines](CONTRIBUTING.md), and take a look at some [good first bugs](https://github.com/onyb/reobject/issues?q=is%3Aissue+is%3Aopen+label%3Abitesize)!
