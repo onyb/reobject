@@ -23,17 +23,9 @@ class Book(Model):
 
 Create a bunch of objects, but instead of `Book(...)` use the `Book.objects.create(...)` syntax.
 ```py3
-Book.objects.create(
-    title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52.89
-)
-
-Book.objects.create(
-    title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30.83
-)
-
-Book.objects.create(
-    title='The AWK Programming Language', authors=['Aho', 'Kernighan'], price=127.17
-)
+>>> Book.objects.create(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
+>>> Book.objects.create(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
+>>> Book.objects.create(title='The AWK Programming Language', authors=['Aho', 'Kernighan'], price=127)
 ```
 Get all books
 ```py3
