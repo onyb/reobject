@@ -1,5 +1,7 @@
 # ReObject
 
+[![Build Status](https://travis-ci.org/onyb/reobject.svg?branch=master)](https://travis-ci.org/onyb/reobject) [![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
+
 
 ### FAQ
 - **What?**
