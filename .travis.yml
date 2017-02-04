@@ -10,4 +10,4 @@ python:
 
 install: pip install -r test-requirements.txt
 
-script: py.test tests
+script: py.test tests --cov=./reobject
