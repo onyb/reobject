@@ -29,12 +29,10 @@ class Manager(object):
         return bool(self.get(name=item))
 
     def filter(self, **kwargs):
-        base_Q_obj = Q.get_base_q()
-        for k, v in kwargs.items():
-            base_Q_obj = base_Q_obj & Q(**{k: v})
+        q = Q(**kwargs)
 
         return QuerySet(filter(
-            base_Q_obj.comparator,
+            q.comparator,
             self._object_store
         ))
 

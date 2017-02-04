@@ -1,73 +1,53 @@
+import operator
+from functools import reduce
+
 from reobject.utils import cmp
 
 
-class Q(object):
+class _Q(object):
     verbs = (
         'contains', 'endswith', 'gt', 'gte', 'in', 'isnull', 'lt', 'lte',
         'startswith'
     )
 
-    def __new__(cls, *args, **kwargs):
-        base_Q_obj = super(Q, cls).__new__(cls)
-
-        if len(kwargs) in [0, 1]:
-            return base_Q_obj
-        else:
-            raise Exception('Multiple kwargs disallowed')
-
     def __init__(self, **kwargs):
-        attr, self.value = list(kwargs.items())[0]
+        if kwargs:
+            attr, self.value = list(kwargs.items())[0]
 
-        self._comparator_func = None
+            if attr.rsplit('__', 1)[-1] in self.verbs:
+                self.attr, self.verb = attr.rsplit('__', 1)
+            else:
+                self.attr = attr
+                self.verb = None
 
-        if attr.rsplit('__', 1)[-1] in self.verbs:
-            self.attr, self.verb = attr.rsplit('__', 1)
+            self.comparator = self._comparator_func
         else:
-            self.attr = attr
-            self.verb = None
+            self.comparator = lambda x: True
+
+    def _comparator_func(self, obj):
+        (value,) = cmp(self.attr)(obj)
+
+        if self.verb:
+            return self.apply_verb(value)
+        else:
+            return value == self.value
 
     def __and__(self, other):
-        base_Q_obj = Q.get_base_q()
-        base_Q_obj.comparator = lambda obj: self.comparator(obj) and \
-                                            other.comparator(obj)
-        return base_Q_obj
+        new = type(self)()
+        new.comparator = lambda obj: self.comparator(obj) and \
+                                     other.comparator(obj)
+        return new
 
     def __or__(self, other):
-        base_Q_obj = Q.get_base_q()
-        base_Q_obj.comparator = lambda obj: self.comparator(obj) or \
-                                            other.comparator(obj)
-        return base_Q_obj
+        new = type(self)()
+        new.comparator = lambda obj: self.comparator(obj) or \
+                                     other.comparator(obj)
+        return new
 
     def __invert__(self):
-        base_Q_obj = Q.get_base_q()
-        base_Q_obj.comparator = lambda obj: not self.comparator(obj)
-        return base_Q_obj
-
-    @classmethod
-    def get_base_q(cls):
-        base_Q_obj = super(Q, cls).__new__(cls)
-        base_Q_obj.comparator = lambda x: True
-        return base_Q_obj
-
-    @property
-    def comparator(self):
-        if self._comparator_func:
-            return self._comparator_func
-
-        def g(obj):
-            (value,) = cmp(self.attr)(obj)
-
-            if self.verb:
-                return self.apply_verb(value)
-            else:
-                return value == self.value
-
-        self.comparator = g
-        return g
-
-    @comparator.setter
-    def comparator(self, g):
-        self._comparator_func = g
+        new = type(self)()
+        new.comparator = lambda obj: not self.comparator(obj)
+        return new
 
     def apply_verb(self, value):
         if self.verb == 'contains':
@@ -88,3 +68,12 @@ class Q(object):
             return value <= self.value
         elif self.verb == 'startswith':
             return value.startswith(self.value)
+
+
+class Q(object):
+    def __new__(cls, *args, **kwargs):
+        return reduce(
+            operator.and_,
+            map(lambda k: _Q(**{k: kwargs[k]}), kwargs),
+            _Q()
+        )
