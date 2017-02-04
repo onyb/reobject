@@ -1,5 +1,9 @@
 from operator import itemgetter
+from itertools import chain
 
+
+def flatmap(func, iterable):
+    return chain(*map(func, iterable))
 
 def cmp(*attrs):
     def g(obj):

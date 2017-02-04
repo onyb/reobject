@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from itertools import chain
 
-from reobject.utils import cmp
+from reobject.utils import cmp, flatmap
 
 
 class QuerySet(list):
@@ -68,13 +68,20 @@ class QuerySet(list):
             for obj in map(cmp(*attrs), self)
         )
 
-    def values_list(self, *attrs):
+    def values_list(self, *attrs, flat=False):
+        # TODO: Allow order_by on values_list
+
         if not attrs:
             attrs = self._attrs
 
-        # TODO: Allow order_by on values_list
+        if len(attrs) > 1 and flat:
+            raise TypeError(
+                '/flat/ is not valid when values_list is called with more than '
+                'one field.'
+            )
+
         return type(self)(
-            map(cmp(*attrs), self)
+            (flatmap if flat else map)(cmp(*attrs), self)
         )
 
 

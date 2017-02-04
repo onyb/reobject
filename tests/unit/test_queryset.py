@@ -152,3 +152,15 @@ class TestQuerySet(unittest.TestCase):
                 (1, 'foo',)
             ])
         )
+
+    def test_values_list_flat(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        self.assertEqual(
+            SomeModel.objects.filter().order_by('-q').values_list('p', flat=True),
+            QuerySet(['bar', 'foo'])
+        )
+
+        with self.assertRaises(TypeError):
+            SomeModel.objects.filter().order_by('-q').values_list('p', 'q', flat=True)
