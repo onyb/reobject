@@ -113,6 +113,18 @@ class TestQuery(unittest.TestCase):
 
         self.assertEqual(SomeModel.objects.filter(q=3, r=3), EmptyQuerySet())
 
+    def test_exclude_some_multiple_kwargs(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        objs = SomeModel.objects.exclude(q=3, r=4)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(objs[0].p, 1)
+        self.assertEqual(objs[0].q, 2)
+        self.assertEqual(objs[0].r, 3)
+
+        self.assertEqual(SomeModel.objects.exclude(q=3, r=3).count(), 2)
+
     def test_count(self):
         SomeModel.objects.create(p=1, q=2, r=3)
         SomeModel.objects.create(p=1, q=3, r=4)

@@ -28,6 +28,27 @@ class Manager(object):
     def __contains__(self, item):
         return bool(self.get(name=item))
 
+    def all(self):
+        return QuerySet(self._object_store)
+
+    def count(self):
+        return len(self._object_store)
+
+    def create(self, **kwargs):
+        obj = self.model(**kwargs)
+        obj.created = obj.updated = datetime.utcnow()
+
+        self._object_store.add(obj)
+        return obj
+
+    def exclude(self, **kwargs):
+        q = ~Q(**kwargs)
+
+        return QuerySet(filter(
+            q.comparator,
+            self._object_store
+        ))
+
     def filter(self, **kwargs):
         q = Q(**kwargs)
 
@@ -55,19 +76,6 @@ class Manager(object):
                     model=self.model.__name__, num=len(result_set)
                 )
             )
-
-    def create(self, **kwargs):
-        obj = self.model(**kwargs)
-        obj.created = obj.updated = datetime.utcnow()
-
-        self._object_store.add(obj)
-        return obj
-
-    def all(self):
-        return QuerySet(self._object_store)
-
-    def count(self):
-        return len(self._object_store)
 
     def none(self):
         return EmptyQuerySet()

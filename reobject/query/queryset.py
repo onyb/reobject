@@ -32,15 +32,23 @@ class QuerySet(list):
         meta = [
             (cmp(*attrs)(obj), obj)
             for obj in self.reverse()
-        ]
+            ]
 
         return type(self)(
             OrderedDict(meta).values()
         )
 
+    def exclude(self, **kwargs):
+        q = ~Q(**kwargs)
+
+        return type(self)(
+            filter(
+                q.comparator, self
+            )
+        )
+
     def exists(self):
         return bool(self)
-
 
     def filter(self, **kwargs):
         q = Q(**kwargs)
