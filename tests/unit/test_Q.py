@@ -107,6 +107,11 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__in=[1, 2, 3])
         self.assertFalse(q_obj.comparator(obj))
 
+    def test_nested_iin(self):
+        obj = SomeModel.objects.create()
+        q_obj = Q(secret__gem__iin=['RuBy', 'PeaRls', 'DiamOnds'])
+        self.assertTrue(q_obj.comparator(obj))
+
     def test_isnull(self):
         obj = SomeModel.objects.create(question=None)
 

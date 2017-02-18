@@ -12,6 +12,7 @@ class _Q(object):
         'icontains',
         'iendswith',
         'iexact',
+        'iin',
         'istartswith',
         'gt',
         'gte',
@@ -80,6 +81,9 @@ class _Q(object):
 
         elif self.verb == 'iexact':
             return value.casefold() == self.value.casefold()
+
+        elif self.verb == 'iin':
+            return value.casefold() in map(str.casefold, self.value)
 
         elif self.verb == 'istartswith':
             return value.casefold().startswith(self.value.casefold())
