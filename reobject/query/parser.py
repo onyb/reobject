@@ -9,6 +9,10 @@ class _Q(object):
         'contains',
         'endswith',
         'exact',
+        'icontains',
+        'iendswith',
+        'iexact',
+        'istartswith',
         'gt',
         'gte',
         'in',
@@ -68,8 +72,17 @@ class _Q(object):
         elif self.verb == 'exact':
             return value == self.value
 
+        elif self.verb == 'icontains':
+            return self.value.casefold() in value.casefold()
+
+        elif self.verb == 'iendswith':
+            return value.casefold().endswith(self.value.casefold())
+
         elif self.verb == 'iexact':
             return value.casefold() == self.value.casefold()
+
+        elif self.verb == 'istartswith':
+            return value.casefold().startswith(self.value.casefold())
 
         elif self.verb == 'gt':
             return value > self.value

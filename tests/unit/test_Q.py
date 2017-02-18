@@ -50,6 +50,11 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__endswith='rb')
         self.assertFalse(q_obj.comparator(obj))
 
+    def test_nested_iendswith(self):
+        q_obj = Q(secret__gem__iendswith='uBy')
+        obj = SomeModel.objects.create()
+        self.assertTrue(q_obj.comparator(obj))
+
     def test_exact(self):
         q_obj = Q(secret__gem__exact='ruby')
         obj = SomeModel.objects.create()
@@ -57,6 +62,11 @@ class TestQ(unittest.TestCase):
 
         q_obj = Q(secret__gem__exact='Ruby')
         self.assertFalse(q_obj.comparator(obj))
+
+    def test_nested_icontains(self):
+        q_obj = Q(secret__gem__icontains='UB')
+        obj = SomeModel.objects.create()
+        self.assertTrue(q_obj.comparator(obj))
 
     def test_iexact(self):
         q_obj = Q(secret__gem__iexact='Ruby')
@@ -134,3 +144,8 @@ class TestQ(unittest.TestCase):
 
         q_obj = Q(secret__gem__startswith='rb')
         self.assertFalse(q_obj.comparator(obj))
+
+    def test_nested_istartswith(self):
+        q_obj = Q(secret__gem__istartswith='RUB')
+        obj = SomeModel.objects.create()
+        self.assertTrue(q_obj.comparator(obj))
