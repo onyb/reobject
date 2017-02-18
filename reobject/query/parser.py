@@ -6,7 +6,16 @@ from reobject.utils import cmp
 
 class _Q(object):
     verbs = (
-        'contains', 'endswith', 'exact', 'gt', 'gte', 'in', 'isnull', 'lt', 'lte',
+        'contains',
+        'endswith',
+        'exact',
+        'gt',
+        'gte',
+        'in',
+        'isnull',
+        'iexact',
+        'lt',
+        'lte',
         'startswith'
     )
 
@@ -58,6 +67,9 @@ class _Q(object):
 
         elif self.verb == 'exact':
             return value == self.value
+
+        elif self.verb == 'iexact':
+            return value.casefold() == self.value.casefold()
 
         elif self.verb == 'gt':
             return value > self.value
