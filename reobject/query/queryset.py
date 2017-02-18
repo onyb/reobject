@@ -2,6 +2,7 @@ from collections import OrderedDict
 from itertools import chain
 
 from reobject.utils import cmp, flatmap
+from reobject.query import Q
 
 
 class QuerySet(list):
@@ -39,6 +40,16 @@ class QuerySet(list):
 
     def exists(self):
         return bool(self)
+
+
+    def filter(self, **kwargs):
+        q = Q(**kwargs)
+
+        return type(self)(
+            filter(
+                q.comparator, self
+            )
+        )
 
     def none(self):
         return EmptyQuerySet()

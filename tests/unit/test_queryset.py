@@ -58,6 +58,14 @@ class TestQuerySet(unittest.TestCase):
         self.assertTrue(SomeModel.objects.filter(p='foo').exists())
         self.assertFalse(SomeModel.objects.filter(p='bar').exists())
 
+    def test_filter(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=0)
+
+        self.assertEqual(SomeModel.objects.filter(q__gte=1).filter(p='foo').count(), 1)
+        self.assertEqual(SomeModel.objects.filter().filter(q__gte=0).count(), 2)
+
+
     def test_none(self):
         self.assertFalse(SomeModel.objects.none().exists())
 
