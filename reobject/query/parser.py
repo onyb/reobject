@@ -6,7 +6,7 @@ from reobject.utils import cmp
 
 class _Q(object):
     verbs = (
-        'contains', 'endswith', 'gt', 'gte', 'in', 'isnull', 'lt', 'lte',
+        'contains', 'endswith', 'exact', 'gt', 'gte', 'in', 'isnull', 'lt', 'lte',
         'startswith'
     )
 
@@ -52,20 +52,31 @@ class _Q(object):
     def apply_verb(self, value):
         if self.verb == 'contains':
             return self.value in value
+
         elif self.verb == 'endswith':
             return value.endswith(self.value)
+
+        elif self.verb == 'exact':
+            return value == self.value
+
         elif self.verb == 'gt':
             return value > self.value
+
         elif self.verb == 'gte':
             return value >= self.value
+
         elif self.verb == 'in':
             return value in self.value
+
         elif self.verb == 'isnull':
             return not value
+
         elif self.verb == 'lt':
             return value < self.value
+
         elif self.verb == 'lte':
             return value <= self.value
+
         elif self.verb == 'startswith':
             return value.startswith(self.value)
 

@@ -50,6 +50,14 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__endswith='rb')
         self.assertFalse(q_obj.comparator(obj))
 
+    def test_exact(self):
+        q_obj = Q(secret__gem__exact='ruby')
+        obj = SomeModel.objects.create()
+        self.assertTrue(q_obj.comparator(obj))
+
+        q_obj = Q(secret__gem__exact='Ruby')
+        self.assertFalse(q_obj.comparator(obj))
+
     def test_nested_gt(self):
         obj = SomeModel.objects.create(secret=7)
 
