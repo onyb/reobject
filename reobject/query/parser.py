@@ -83,9 +83,7 @@ class _Q(object):
             return value.casefold() == self.value.casefold()
 
         elif self.verb == 'iin':
-            # For PyPy versions which do not support str.casefold
-            func = getattr(str, 'casefold', lambda s: s.casefold())
-            return value.casefold() in map(func, self.value)
+            return value.casefold() in map(str.casefold, self.value)
 
         elif self.verb == 'istartswith':
             return value.casefold().startswith(self.value.casefold())
