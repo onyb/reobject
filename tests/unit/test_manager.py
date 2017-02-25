@@ -79,6 +79,20 @@ class TestQuery(unittest.TestCase):
         with self.assertRaises(MultipleObjectsReturned):
             SomeModel.objects.get(p=1)
 
+    def test_get_or_create_get(self):
+        _id = SomeModel.objects.create(p=1, q=2, r=3).id
+
+        obj, created = SomeModel.objects.get_or_create(p=1, q=2)
+        self.assertEqual(obj.pk, _id)
+        self.assertFalse(created)
+
+    def test_get_or_create_create(self):
+        obj, created = SomeModel.objects.get_or_create(p=2, defaults={'q': 1, 'r': 3})
+        self.assertEqual(obj.p, 2)
+        self.assertEqual(obj.q, 1)
+        self.assertEqual(obj.r, 3)
+        self.assertTrue(created)
+
     def test_filter_nokwargs(self):
         SomeModel.objects.create(p=1, q=2, r=3)
         SomeModel.objects.create(p=1, q=3, r=4)

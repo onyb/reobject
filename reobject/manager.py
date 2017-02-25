@@ -80,6 +80,20 @@ class Manager(object):
                 )
             )
 
+    def get_or_create(self, defaults=None, **kwargs):
+        try:
+            obj = self.get(**kwargs)
+        except DoesNotExist:
+            params = {k: v for k, v in kwargs.items() if '__' not in k}
+
+            if defaults:
+                params.update(defaults)
+
+            obj = self.create(**params)
+            return obj, True
+        else:
+            return obj, False
+
     def none(self):
         return EmptyQuerySet(model=self.model)
 
