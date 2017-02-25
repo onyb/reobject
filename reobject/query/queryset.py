@@ -1,13 +1,14 @@
 from collections import OrderedDict
 from itertools import chain
-
+from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 from reobject.utils import cmp, flatmap
 from reobject.query import Q
 
 
 class QuerySet(list):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, model, **kwargs):
         super(QuerySet, self).__init__(*args, **kwargs)
+        self.model = model
 
     @property
     def _attrs(self):
@@ -15,7 +16,8 @@ class QuerySet(list):
 
     def __or__(self, other):
         return type(self)(
-            chain(self, other)
+            chain(self, other),
+            model=self.model
         ).distinct('id')
 
     def count(self):
@@ -35,16 +37,16 @@ class QuerySet(list):
             ]
 
         return type(self)(
-            OrderedDict(meta).values()
+            OrderedDict(meta).values(),
+            model=self.model
         )
 
     def exclude(self, **kwargs):
         q = ~Q(**kwargs)
 
         return type(self)(
-            filter(
-                q.comparator, self
-            )
+            filter(q.comparator, self),
+            model=self.model
         )
 
     def exists(self):
@@ -54,25 +56,46 @@ class QuerySet(list):
         q = Q(**kwargs)
 
         return type(self)(
-            filter(
-                q.comparator, self
-            )
+            filter(q.comparator, self),
+            model=self.model
         )
 
+    def get(self, **kwargs):
+        result_set = self.filter(**kwargs)
+
+        if len(result_set) == 0:
+            raise DoesNotExist(
+                '{model} object matching query does not exist.'.format(
+                    model=self.model.__name__
+                )
+            )
+
+        elif len(result_set) == 1:
+            return result_set[0]
+        else:
+            raise MultipleObjectsReturned(
+                'get() returned more than one {model} object '
+                '-- it returned {num}!'.format(
+                    model=self.model.__name__, num=len(result_set)
+                )
+            )
+
     def none(self):
-        return EmptyQuerySet()
+        return EmptyQuerySet(model=self.model)
 
     def order_by(self, *attrs):
         if not attrs:
             raise AttributeError
 
         return type(self)(
-            sorted(self, key=cmp(*attrs))
+            sorted(self, key=cmp(*attrs)),
+            model=self.model
         )
 
     def reverse(self):
         return type(self)(
-            reversed(self)
+            reversed(self),
+            model=self.model
         )
 
     def values(self, *attrs):
@@ -80,10 +103,11 @@ class QuerySet(list):
             attrs = self._attrs
 
         return type(self)(
-            dict(
-                zip(attrs, obj)
-            )
-            for obj in map(cmp(*attrs), self)
+            (
+                dict(zip(attrs, obj))
+                for obj in map(cmp(*attrs), self)
+            ),
+            model=self.model
         )
 
     def values_list(self, *attrs, flat=False):
@@ -99,10 +123,12 @@ class QuerySet(list):
             )
 
         return type(self)(
-            (flatmap if flat else map)(cmp(*attrs), self)
+            (flatmap if flat else map)(cmp(*attrs), self),
+            model=self.model
         )
 
 
 class EmptyQuerySet(QuerySet):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, model, *args, **kwargs):
         super(QuerySet, self).__init__(*args, **kwargs)
+        self.model = model

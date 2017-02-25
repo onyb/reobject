@@ -82,20 +82,18 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('q').values_list('q'),
-            QuerySet([
-                (1,),
-                (2,),
-                (3,)
-            ])
+            QuerySet(
+                [(1,),(2,),(3,)],
+                model=SomeModel
+            )
         )
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values_list('q'),
-            QuerySet([
-                (3,),
-                (2,),
-                (1,)
-            ])
+            QuerySet(
+                [(3,),(2,),(1,)],
+                model=SomeModel
+            )
         )
 
         with self.assertRaises(AttributeError):
@@ -107,19 +105,19 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('q').reverse().values_list('q'),
-            QuerySet([
-                (2,),
-                (1,)
-            ])
+            QuerySet(
+                [(2,),(1,)],
+                model=SomeModel
+            )
         )
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('q').reverse().reverse()
                 .values_list('q'),
-            QuerySet([
-                (1,),
-                (2,)
-            ])
+            QuerySet(
+                [(1,),(2,)],
+                model=SomeModel
+            )
         )
 
     def test_values(self):
@@ -128,18 +126,21 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values('q'),
-            QuerySet([
-                {'q': 2},
-                {'q': 1},
-            ])
+            QuerySet(
+                [{'q': 2},{'q': 1},],
+                model=SomeModel
+            )
         )
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values('p', 'q'),
-            QuerySet([
-                {'q': 2, 'p': 'bar'},
-                {'q': 1, 'p': 'foo'},
-            ])
+            QuerySet(
+                [
+                    {'q': 2, 'p': 'bar'},
+                    {'q': 1, 'p': 'foo'},
+                ],
+                model=SomeModel
+            )
         )
 
         self.assertSetEqual(
@@ -153,18 +154,24 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values_list('p', 'q'),
-            QuerySet([
-                ('bar', 2,),
-                ('foo', 1,)
-            ])
+            QuerySet(
+                [
+                    ('bar', 2,),
+                    ('foo', 1,)
+                ],
+                model=SomeModel
+            )
         )
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values_list('q', 'p'),
-            QuerySet([
-                (2, 'bar',),
-                (1, 'foo',)
-            ])
+            QuerySet(
+                [
+                    (2, 'bar',),
+                    (1, 'foo',)
+                ],
+                model=SomeModel
+            )
         )
 
     def test_values_list_flat(self):
@@ -173,7 +180,10 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values_list('p', flat=True),
-            QuerySet(['bar', 'foo'])
+            QuerySet(
+                ['bar', 'foo'],
+                model=SomeModel
+            )
         )
 
         with self.assertRaises(TypeError):

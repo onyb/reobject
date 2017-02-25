@@ -29,7 +29,10 @@ class Manager(object):
         return bool(self.get(name=item))
 
     def all(self):
-        return QuerySet(self._object_store)
+        return QuerySet(
+            self._object_store,
+            model=self.model
+        )
 
     def count(self):
         return len(self._object_store)
@@ -44,18 +47,18 @@ class Manager(object):
     def exclude(self, **kwargs):
         q = ~Q(**kwargs)
 
-        return QuerySet(filter(
-            q.comparator,
-            self._object_store
-        ))
+        return QuerySet(
+            filter(q.comparator, self._object_store),
+            model=self.model
+        )
 
     def filter(self, **kwargs):
         q = Q(**kwargs)
 
-        return QuerySet(filter(
-            q.comparator,
-            self._object_store
-        ))
+        return QuerySet(
+            filter(q.comparator, self._object_store),
+            model=self.model
+        )
 
     def get(self, **kwargs):
         result_set = self.filter(**kwargs)
@@ -78,7 +81,7 @@ class Manager(object):
             )
 
     def none(self):
-        return EmptyQuerySet()
+        return EmptyQuerySet(model=self.model)
 
     def _clear(self):
         self._object_store.clear()

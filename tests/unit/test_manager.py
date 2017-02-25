@@ -89,7 +89,7 @@ class TestQuery(unittest.TestCase):
         SomeModel.objects.create(p=1, q=2, r=3)
         SomeModel.objects.create(p=1, q=3, r=4)
 
-        self.assertEqual(SomeModel.objects.filter(p=2), EmptyQuerySet())
+        self.assertEqual(SomeModel.objects.filter(p=2), EmptyQuerySet(model=SomeModel))
 
     def test_filter_some_single_kwarg(self):
         SomeModel.objects.create(p=1, q=2, r=3)
@@ -111,7 +111,7 @@ class TestQuery(unittest.TestCase):
         self.assertEqual(objs[0].q, 3)
         self.assertEqual(objs[0].r, 4)
 
-        self.assertEqual(SomeModel.objects.filter(q=3, r=3), EmptyQuerySet())
+        self.assertEqual(SomeModel.objects.filter(q=3, r=3), EmptyQuerySet(model=SomeModel))
 
     def test_exclude_some_multiple_kwargs(self):
         SomeModel.objects.create(p=1, q=2, r=3)
