@@ -72,6 +72,25 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(SomeModel.objects.filter(q__gte=1).filter(p='foo').count(), 1)
         self.assertEqual(SomeModel.objects.filter().filter(q__gte=0).count(), 2)
 
+    def test_get(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=0)
+
+        self.assertEqual(SomeModel.objects.filter(q__gte=0).get(p='foo').q, 1)
+
+    def test_get_or_create(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=0)
+
+        obj, created = SomeModel.objects.filter(q__gte=0).get_or_create(p='foo')
+
+        self.assertEqual(obj.q, 1)
+        self.assertFalse(created)
+
+        obj, created = SomeModel.objects.exclude(q__gte=0).get_or_create(p='foo', defaults={'q': 2})
+        self.assertEqual(obj.q, 2)
+        self.assertTrue(created)
+
     def test_none(self):
         self.assertFalse(SomeModel.objects.none().exists())
 
