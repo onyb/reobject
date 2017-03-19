@@ -42,6 +42,19 @@ class QuerySet(list):
             model=self.model
         )
 
+    def earliest(self, field_name=None):
+        if not field_name:
+            field_name = 'created'
+
+        try:
+            obj = self.filter(
+                **{field_name + '__isnone': False}
+            ).order_by(field_name)[0]
+        except IndexError:
+            return None
+        else:
+            return obj
+
     def exclude(self, **kwargs):
         q = ~Q(**kwargs)
 
@@ -97,7 +110,7 @@ class QuerySet(list):
 
     def latest(self, field_name=None):
         if not field_name:
-            field_name = 'updated'
+            field_name = 'created'
 
         try:
             obj = self.filter(

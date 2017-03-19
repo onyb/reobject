@@ -43,6 +43,9 @@ class Manager(object):
         self._object_store.add(obj)
         return obj
 
+    def earliest(self, field_name=None):
+        return self.all().earliest(field_name)
+
     def exclude(self, **kwargs):
         return self.all().exclude(**kwargs)
 

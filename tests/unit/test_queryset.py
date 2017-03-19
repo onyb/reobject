@@ -60,6 +60,14 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(SomeModel.objects.filter().distinct('p', 'q').count(), 3)
         self.assertEqual(SomeModel.objects.filter().distinct('q', 'p').count(), 3)
 
+    def test_earliest(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=0)
+
+        obj = SomeModel.objects.earliest()
+
+        self.assertEqual(obj.p, 'foo')
+
     def test_exists(self):
         SomeModel.objects.create(p='foo')
 
