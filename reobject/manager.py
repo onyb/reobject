@@ -94,6 +94,9 @@ class Manager(object):
         else:
             return obj, False
 
+    def latest(self, field_name=None):
+        return self.all().latest(field_name)
+
     def none(self):
         return EmptyQuerySet(model=self.model)
 

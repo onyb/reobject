@@ -94,6 +94,19 @@ class QuerySet(list):
         else:
             return obj, False
 
+    def latest(self, field_name=None):
+        if not field_name:
+            field_name = 'updated'
+
+        try:
+            obj = self.filter(
+                **{field_name + '__isnone': False}
+            ).order_by(field_name)[-1]
+        except IndexError:
+            return None
+        else:
+            return obj
+
     def none(self):
         return EmptyQuerySet(model=self.model)
 

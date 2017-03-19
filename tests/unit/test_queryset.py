@@ -91,6 +91,14 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(obj.q, 2)
         self.assertTrue(created)
 
+    def test_latest(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=0)
+
+        obj = SomeModel.objects.latest()
+
+        self.assertEqual(obj.p, 'bar')
+
     def test_none(self):
         self.assertFalse(SomeModel.objects.none().exists())
 
