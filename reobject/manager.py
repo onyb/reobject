@@ -52,11 +52,17 @@ class Manager(object):
     def filter(self, **kwargs):
         return self.all().filter(**kwargs)
 
+    def first(self):
+        return self.all().earliest()
+
     def get(self, **kwargs):
         return self.all().get(**kwargs)
 
     def get_or_create(self, defaults=None, **kwargs):
         return self.all().get_or_create(defaults, **kwargs)
+
+    def last(self):
+        return self.all().latest()
 
     def latest(self, field_name=None):
         return self.all().latest(field_name)

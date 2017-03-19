@@ -74,6 +74,14 @@ class QuerySet(list):
             model=self.model
         )
 
+    def first(self):
+        try:
+            obj = self[0]
+        except IndexError:
+            return None
+        else:
+            return obj
+
     def get(self, **kwargs):
         result_set = self.filter(**kwargs)
 
@@ -107,6 +115,14 @@ class QuerySet(list):
             return obj, True
         else:
             return obj, False
+
+    def last(self):
+        try:
+            obj = self[-1]
+        except IndexError:
+            return None
+        else:
+            return obj
 
     def latest(self, field_name=None):
         if not field_name:

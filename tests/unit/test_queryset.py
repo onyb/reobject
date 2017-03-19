@@ -102,7 +102,7 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(len(SomeModel.objects.filter()), 2)
 
-    def test__manager_filter_none(self):
+    def test_manager_filter_none(self):
         SomeModel.objects.create(p=1, q=2, r=3)
         SomeModel.objects.create(p=1, q=3, r=4)
 
@@ -297,3 +297,39 @@ class TestQuerySet(unittest.TestCase):
 
         with self.assertRaises(TypeError):
             SomeModel.objects.filter().order_by('-q').values_list('p', 'q', flat=True)
+
+    def test_first(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        obj = SomeModel.objects.all().order_by('-q').first()
+
+        self.assertEqual(obj.q, 2)
+
+    def test_manager_first(self):
+        self.assertEqual(SomeModel.objects.first(), None)
+
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        obj = SomeModel.objects.first()
+
+        self.assertEqual(obj.q, 1)
+
+    def test_last(self):
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        obj = SomeModel.objects.all().order_by('q').last()
+
+        self.assertEqual(obj.q, 2)
+
+    def test_manager_last(self):
+        self.assertEqual(SomeModel.objects.last(), None)
+
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        obj = SomeModel.objects.last()
+
+        self.assertEqual(obj.q, 2)
