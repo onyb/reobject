@@ -61,6 +61,9 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(SomeModel.objects.filter().distinct('q', 'p').count(), 3)
 
     def test_earliest(self):
+        obj = SomeModel.objects.earliest()
+        self.assertEqual(obj, None)
+
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=0)
 
@@ -168,6 +171,9 @@ class TestQuerySet(unittest.TestCase):
         self.assertTrue(created)
 
     def test_latest(self):
+        obj = SomeModel.objects.latest()
+        self.assertEqual(obj, None)
+
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=0)
 
