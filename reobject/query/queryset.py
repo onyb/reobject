@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from itertools import chain
+import random
 
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 from reobject.query import Q
@@ -148,6 +149,14 @@ class QuerySet(list):
             sorted(self, key=cmp(*attrs)),
             model=self.model
         )
+
+    def random(self):
+        try:
+            obj = random.choice(self)
+        except IndexError:
+            return None
+        else:
+            return obj
 
     def reverse(self):
         return type(self)(

@@ -1,4 +1,5 @@
 from datetime import datetime
+import random
 
 from reobject.query import QuerySet, EmptyQuerySet
 
@@ -69,6 +70,9 @@ class Manager(object):
 
     def none(self):
         return EmptyQuerySet(model=self.model)
+
+    def random(self):
+        return self.all().random()
 
     def _clear(self):
         self._object_store.clear()

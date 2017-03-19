@@ -62,7 +62,7 @@ class TestQuerySet(unittest.TestCase):
 
     def test_earliest(self):
         obj = SomeModel.objects.earliest()
-        self.assertEqual(obj, None)
+        self.assertIsNone(obj)
 
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=0)
@@ -172,7 +172,7 @@ class TestQuerySet(unittest.TestCase):
 
     def test_latest(self):
         obj = SomeModel.objects.latest()
-        self.assertEqual(obj, None)
+        self.assertIsNone(obj)
 
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=0)
@@ -307,7 +307,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(obj.q, 2)
 
     def test_manager_first(self):
-        self.assertEqual(SomeModel.objects.first(), None)
+        self.assertIsNone(SomeModel.objects.first())
 
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=2)
@@ -325,7 +325,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(obj.q, 2)
 
     def test_manager_last(self):
-        self.assertEqual(SomeModel.objects.last(), None)
+        self.assertIsNone(SomeModel.objects.last())
 
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=2)
@@ -333,3 +333,13 @@ class TestQuerySet(unittest.TestCase):
         obj = SomeModel.objects.last()
 
         self.assertEqual(obj.q, 2)
+
+    def test_manager_random(self):
+        self.assertIsNone(SomeModel.objects.random())
+
+        SomeModel.objects.create(p='foo', q=1)
+        SomeModel.objects.create(p='bar', q=2)
+
+        obj = SomeModel.objects.random()
+
+        self.assertIn(obj, SomeModel.objects.all())
