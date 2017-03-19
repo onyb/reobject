@@ -112,13 +112,13 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__iin=['RuBy', 'PeaRls', 'DiamOnds'])
         self.assertTrue(q_obj.comparator(obj))
 
-    def test_isnull(self):
+    def test_isnone(self):
         obj = SomeModel.objects.create(question=None)
 
-        q_obj = Q(question__isnull=True)
+        q_obj = Q(question__isnone=True)
         self.assertTrue(q_obj.comparator(obj))
 
-        q_obj = Q(secret__isnull=True)
+        q_obj = Q(secret__isnone=True)
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_lt(self):

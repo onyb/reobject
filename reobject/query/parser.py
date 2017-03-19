@@ -17,7 +17,7 @@ class _Q(object):
         'gt',
         'gte',
         'in',
-        'isnull',
+        'isnone',
         'iexact',
         'lt',
         'lte',
@@ -97,8 +97,8 @@ class _Q(object):
         elif self.verb == 'in':
             return value in self.value
 
-        elif self.verb == 'isnull':
-            return not value
+        elif self.verb == 'isnone':
+            return self.value == (value is None)
 
         elif self.verb == 'lt':
             return value < self.value
