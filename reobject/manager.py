@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
-from reobject.query import Q, QuerySet, EmptyQuerySet
+from reobject.query import QuerySet, EmptyQuerySet
 
 
 class ManagerDescriptor(object):
@@ -35,7 +34,7 @@ class Manager(object):
         )
 
     def count(self):
-        return len(self._object_store)
+        return self.all().count()
 
     def create(self, **kwargs):
         obj = self.model(**kwargs)
@@ -45,54 +44,16 @@ class Manager(object):
         return obj
 
     def exclude(self, **kwargs):
-        q = ~Q(**kwargs)
-
-        return QuerySet(
-            filter(q.comparator, self._object_store),
-            model=self.model
-        )
+        return self.all().exclude(**kwargs)
 
     def filter(self, **kwargs):
-        q = Q(**kwargs)
-
-        return QuerySet(
-            filter(q.comparator, self._object_store),
-            model=self.model
-        )
+        return self.all().filter(**kwargs)
 
     def get(self, **kwargs):
-        result_set = self.filter(**kwargs)
-
-        if len(result_set) == 0:
-            raise DoesNotExist(
-                '{model} object matching query does not exist.'.format(
-                    model=self.model.__name__
-                )
-            )
-
-        elif len(result_set) == 1:
-            return result_set[0]
-        else:
-            raise MultipleObjectsReturned(
-                'get() returned more than one {model} object '
-                '-- it returned {num}!'.format(
-                    model=self.model.__name__, num=len(result_set)
-                )
-            )
+        return self.all().get(**kwargs)
 
     def get_or_create(self, defaults=None, **kwargs):
-        try:
-            obj = self.get(**kwargs)
-        except DoesNotExist:
-            params = {k: v for k, v in kwargs.items() if '__' not in k}
-
-            if defaults:
-                params.update(defaults)
-
-            obj = self.create(**params)
-            return obj, True
-        else:
-            return obj, False
+        return self.all().get_or_create(defaults, **kwargs)
 
     def latest(self, field_name=None):
         return self.all().latest(field_name)

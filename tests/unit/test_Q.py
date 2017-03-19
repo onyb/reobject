@@ -1,4 +1,3 @@
-from random import randint
 import unittest
 
 from reobject.model import Model

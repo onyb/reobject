@@ -1,14 +1,16 @@
-from random import randint
 import unittest
+from random import randint
 
+from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 from reobject.model import Model
-from reobject.query import QuerySet
+from reobject.query import QuerySet, EmptyQuerySet
 
 
 class SomeModel(Model):
-    def __init__(self, p, q=None):
+    def __init__(self, p, q=None, r=None):
         self.p = p
         self.q = q or randint(1, 10000)
+        self.r = r
 
 
 class TestQuerySet(unittest.TestCase):
@@ -34,6 +36,12 @@ class TestQuerySet(unittest.TestCase):
         SomeModel.objects.create(p='bar')
 
         self.assertEqual(SomeModel.objects.filter().count(), 2)
+
+    def test_manager_count(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        self.assertEqual(SomeModel.objects.count(), 2)
 
     def test_delete(self):
         SomeModel.objects.create(p='foo')
@@ -65,18 +73,78 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(SomeModel.objects.filter(q__gte=1).exclude(p='foo').count(), 1)
         self.assertEqual(SomeModel.objects.filter().exclude(q__gte=0).count(), 0)
 
-    def test_filter(self):
-        SomeModel.objects.create(p='foo', q=1)
-        SomeModel.objects.create(p='bar', q=0)
+    def test_manager_exclude_some_multiple_kwargs(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
 
-        self.assertEqual(SomeModel.objects.filter(q__gte=1).filter(p='foo').count(), 1)
-        self.assertEqual(SomeModel.objects.filter().filter(q__gte=0).count(), 2)
+        objs = SomeModel.objects.exclude(q=3, r=4)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(objs[0].p, 1)
+        self.assertEqual(objs[0].q, 2)
+        self.assertEqual(objs[0].r, 3)
 
-    def test_get(self):
+        self.assertEqual(SomeModel.objects.exclude(q=3, r=3).count(), 2)
+
+    def test_manager_filter_nokwargs(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        self.assertEqual(len(SomeModel.objects.filter()), 2)
+
+    def test__manager_filter_none(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        self.assertEqual(SomeModel.objects.filter(p=2), EmptyQuerySet(model=SomeModel))
+
+    def test_manager_filter_some_single_kwarg(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        objs = SomeModel.objects.filter(q=2)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(objs[0].p, 1)
+        self.assertEqual(objs[0].q, 2)
+        self.assertEqual(objs[0].r, 3)
+
+    def test_manager_filter_some_multiple_kwargs(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        objs = SomeModel.objects.filter(q=3, r=4)
+        self.assertEqual(len(objs), 1)
+        self.assertEqual(objs[0].p, 1)
+        self.assertEqual(objs[0].q, 3)
+        self.assertEqual(objs[0].r, 4)
+
+        self.assertEqual(SomeModel.objects.filter(q=3, r=3), EmptyQuerySet(model=SomeModel))
+
+    def test_queryset_get(self):
         SomeModel.objects.create(p='foo', q=1)
         SomeModel.objects.create(p='bar', q=0)
 
         self.assertEqual(SomeModel.objects.filter(q__gte=0).get(p='foo').q, 1)
+
+    def test_manager_get_success(self):
+        _id = SomeModel.objects.create(p=1, q=2, r=3).id
+
+        obj = SomeModel.objects.get(id=_id)
+        self.assertEqual(obj.p, 1)
+        self.assertEqual(obj.q, 2)
+        self.assertEqual(obj.r, 3)
+
+    def test_manager_get_does_not_exist(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+
+        with self.assertRaises(DoesNotExist):
+            SomeModel.objects.get(p=2)
+
+    def test_manager_get_multiple_objects_returned(self):
+        SomeModel.objects.create(p=1, q=2, r=3)
+        SomeModel.objects.create(p=1, q=3, r=4)
+
+        with self.assertRaises(MultipleObjectsReturned):
+            SomeModel.objects.get(p=1)
 
     def test_get_or_create(self):
         SomeModel.objects.create(p='foo', q=1)
@@ -110,7 +178,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(
             SomeModel.objects.filter().order_by('q').values_list('q'),
             QuerySet(
-                [(1,),(2,),(3,)],
+                [(1,), (2,), (3,)],
                 model=SomeModel
             )
         )
@@ -118,7 +186,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values_list('q'),
             QuerySet(
-                [(3,),(2,),(1,)],
+                [(3,), (2,), (1,)],
                 model=SomeModel
             )
         )
@@ -133,7 +201,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(
             SomeModel.objects.filter().order_by('q').reverse().values_list('q'),
             QuerySet(
-                [(2,),(1,)],
+                [(2,), (1,)],
                 model=SomeModel
             )
         )
@@ -142,7 +210,7 @@ class TestQuerySet(unittest.TestCase):
             SomeModel.objects.filter().order_by('q').reverse().reverse()
                 .values_list('q'),
             QuerySet(
-                [(1,),(2,)],
+                [(1,), (2,)],
                 model=SomeModel
             )
         )
@@ -154,7 +222,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(
             SomeModel.objects.filter().order_by('-q').values('q'),
             QuerySet(
-                [{'q': 2},{'q': 1},],
+                [{'q': 2}, {'q': 1}, ],
                 model=SomeModel
             )
         )
@@ -172,7 +240,7 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertSetEqual(
             set(SomeModel.objects.filter().order_by('-q').values()[0].keys()),
-            {'p', 'q', 'created', 'updated', 'id'}
+            {'p', 'q', 'r', 'created', 'updated', 'id'}
         )
 
     def test_values_list(self):

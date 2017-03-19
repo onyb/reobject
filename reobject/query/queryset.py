@@ -1,8 +1,9 @@
 from collections import OrderedDict
 from itertools import chain
+
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
-from reobject.utils import cmp, flatmap
 from reobject.query import Q
+from reobject.utils import cmp, flatmap
 
 
 class QuerySet(list):

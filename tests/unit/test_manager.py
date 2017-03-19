@@ -1,9 +1,7 @@
 import unittest
 from datetime import datetime
 
-from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 from reobject.model import Model
-from reobject.query import EmptyQuerySet
 
 
 class SomeModel(Model):
@@ -57,90 +55,3 @@ class TestQuery(unittest.TestCase):
 
     def test_manager_model(self):
         self.assertEqual(SomeModel.objects.model, SomeModel)
-
-    def test_get_success(self):
-        _id = SomeModel.objects.create(p=1, q=2, r=3).id
-
-        obj = SomeModel.objects.get(id=_id)
-        self.assertEqual(obj.p, 1)
-        self.assertEqual(obj.q, 2)
-        self.assertEqual(obj.r, 3)
-
-    def test_get_does_not_exist(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-
-        with self.assertRaises(DoesNotExist):
-            SomeModel.objects.get(p=2)
-
-    def test_get_multiple_objects_returned(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        with self.assertRaises(MultipleObjectsReturned):
-            SomeModel.objects.get(p=1)
-
-    def test_get_or_create_get(self):
-        _id = SomeModel.objects.create(p=1, q=2, r=3).id
-
-        obj, created = SomeModel.objects.get_or_create(p=1, q=2)
-        self.assertEqual(obj.pk, _id)
-        self.assertFalse(created)
-
-    def test_get_or_create_create(self):
-        obj, created = SomeModel.objects.get_or_create(p=2, defaults={'q': 1, 'r': 3})
-        self.assertEqual(obj.p, 2)
-        self.assertEqual(obj.q, 1)
-        self.assertEqual(obj.r, 3)
-        self.assertTrue(created)
-
-    def test_filter_nokwargs(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        self.assertEqual(len(SomeModel.objects.filter()), 2)
-
-    def test_filter_none(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        self.assertEqual(SomeModel.objects.filter(p=2), EmptyQuerySet(model=SomeModel))
-
-    def test_filter_some_single_kwarg(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        objs = SomeModel.objects.filter(q=2)
-        self.assertEqual(len(objs), 1)
-        self.assertEqual(objs[0].p, 1)
-        self.assertEqual(objs[0].q, 2)
-        self.assertEqual(objs[0].r, 3)
-
-    def test_filter_some_multiple_kwargs(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        objs = SomeModel.objects.filter(q=3, r=4)
-        self.assertEqual(len(objs), 1)
-        self.assertEqual(objs[0].p, 1)
-        self.assertEqual(objs[0].q, 3)
-        self.assertEqual(objs[0].r, 4)
-
-        self.assertEqual(SomeModel.objects.filter(q=3, r=3), EmptyQuerySet(model=SomeModel))
-
-    def test_exclude_some_multiple_kwargs(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        objs = SomeModel.objects.exclude(q=3, r=4)
-        self.assertEqual(len(objs), 1)
-        self.assertEqual(objs[0].p, 1)
-        self.assertEqual(objs[0].q, 2)
-        self.assertEqual(objs[0].r, 3)
-
-        self.assertEqual(SomeModel.objects.exclude(q=3, r=3).count(), 2)
-
-    def test_count(self):
-        SomeModel.objects.create(p=1, q=2, r=3)
-        SomeModel.objects.create(p=1, q=3, r=4)
-
-        self.assertEqual(SomeModel.objects.count(), 2)
