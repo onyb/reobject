@@ -112,7 +112,7 @@ class QuerySet(list):
             if defaults:
                 params.update(defaults)
 
-            obj = self.model.objects.create(**params)
+            obj = self.model(**params)
             return obj, True
         else:
             return obj, False
@@ -137,6 +137,9 @@ class QuerySet(list):
             return None
         else:
             return obj
+
+    def map(self, callable):
+        return map(callable, self)
 
     def none(self):
         return EmptyQuerySet(model=self.model)

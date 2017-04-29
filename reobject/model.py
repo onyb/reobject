@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from reobject.manager import ManagerDescriptor
 
 
@@ -18,6 +20,12 @@ class ModelBase(type):
 
 
 class Model(object, metaclass=ModelBase):
+    def __new__(cls, *args, **kwargs):
+        instance = super(Model, cls).__new__(cls)
+        instance.created = instance.updated = datetime.utcnow()
+        cls.objects._object_store.add(instance)
+        return instance
+
     @classmethod
     def _get_cls(cls):
         return cls

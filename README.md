@@ -21,11 +21,11 @@ class Book(Model):
         self.price = price
 ```
 
-Create a bunch of objects, but instead of `Book(...)` use the `Book.objects.create(...)` syntax.
+Create a bunch of objects:
 ```py3
->>> Book.objects.create(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
->>> Book.objects.create(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
->>> Book.objects.create(title='The AWK Programming Language', authors=['Aho', 'Kernighan'], price=127)
+>>> Book(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
+>>> Book(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
+>>> Book(title='The AWK Programming Language', authors=['Aho', 'Kernighan'], price=127)
 ```
 Get all books
 ```py3

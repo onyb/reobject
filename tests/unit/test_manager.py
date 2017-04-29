@@ -21,7 +21,7 @@ class TestQuery(unittest.TestCase):
     def test_descriptor_cls(self):
         try:
             SomeModel.objects
-            SomeModel.objects.create
+            SomeModel.objects.filter
         except AttributeError:
             self.assertFalse(True)
         else:
@@ -34,7 +34,7 @@ class TestQuery(unittest.TestCase):
             obj.objects.foo
 
     def test_create(self):
-        obj = SomeModel.objects.create(p=1, q=2, r=1)
+        obj = SomeModel(p=1, q=2, r=1)
 
         self.assertEqual(obj.p, 1)
         self.assertEqual(obj.q, 2)
@@ -47,9 +47,9 @@ class TestQuery(unittest.TestCase):
         self.assertFalse(SomeModel.objects.none())
 
     def test_all(self):
-        SomeModel.objects.create(p=0, q=0, r=1)
-        SomeModel.objects.create(p=0, q=1, r=0)
-        SomeModel.objects.create(p=1, q=0, r=0)
+        SomeModel(p=0, q=0, r=1)
+        SomeModel(p=0, q=1, r=0)
+        SomeModel(p=1, q=0, r=0)
 
         self.assertEqual(len(SomeModel.objects.all()), 3)
 

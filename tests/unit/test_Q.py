@@ -22,20 +22,20 @@ class TestQ(unittest.TestCase):
     def test_simple(self):
         q_obj = Q(question='What?')
 
-        obj = SomeModel.objects.create(question='What?')
+        obj = SomeModel(question='What?')
         self.assertTrue(q_obj.comparator(obj))
 
-        obj = SomeModel.objects.create(question='When?')
+        obj = SomeModel(question='When?')
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_attrs(self):
         q_obj = Q(secret__gem='ruby')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
     def test_nested_contains(self):
         q_obj = Q(secret__gem__contains='ub')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
         q_obj = Q(secret__gem__contains='rby')
@@ -43,7 +43,7 @@ class TestQ(unittest.TestCase):
 
     def test_nested_endswith(self):
         q_obj = Q(secret__gem__endswith='uby')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
         q_obj = Q(secret__gem__endswith='rb')
@@ -51,12 +51,12 @@ class TestQ(unittest.TestCase):
 
     def test_nested_iendswith(self):
         q_obj = Q(secret__gem__iendswith='uBy')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
     def test_exact(self):
         q_obj = Q(secret__gem__exact='ruby')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
         q_obj = Q(secret__gem__exact='Ruby')
@@ -64,20 +64,20 @@ class TestQ(unittest.TestCase):
 
     def test_nested_icontains(self):
         q_obj = Q(secret__gem__icontains='UB')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
     def test_iexact(self):
         q_obj = Q(secret__gem__iexact='Ruby')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
-        obj = SomeModel.objects.create(secret='BUẞE')
+        obj = SomeModel(secret='BUẞE')
         q_obj = Q(secret__gem__iexact='busse')
         self.assertTrue(q_obj.comparator(obj))
 
     def test_nested_gt(self):
-        obj = SomeModel.objects.create(secret=7)
+        obj = SomeModel(secret=7)
 
         q_obj = Q(secret__gem__gt=6)
         self.assertTrue(q_obj.comparator(obj))
@@ -86,7 +86,7 @@ class TestQ(unittest.TestCase):
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_gte(self):
-        obj = SomeModel.objects.create(secret=7)
+        obj = SomeModel(secret=7)
 
         q_obj = Q(secret__gem__gte=6)
         self.assertTrue(q_obj.comparator(obj))
@@ -98,7 +98,7 @@ class TestQ(unittest.TestCase):
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_in(self):
-        obj = SomeModel.objects.create(secret=7)
+        obj = SomeModel(secret=7)
 
         q_obj = Q(secret__gem__in=[1, 2, 3, 4, 5, 6, 7])
         self.assertTrue(q_obj.comparator(obj))
@@ -107,12 +107,12 @@ class TestQ(unittest.TestCase):
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_iin(self):
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         q_obj = Q(secret__gem__iin=['RuBy', 'PeaRls', 'DiamOnds'])
         self.assertTrue(q_obj.comparator(obj))
 
     def test_isnone(self):
-        obj = SomeModel.objects.create(question=None)
+        obj = SomeModel(question=None)
 
         q_obj = Q(question__isnone=True)
         self.assertTrue(q_obj.comparator(obj))
@@ -121,7 +121,7 @@ class TestQ(unittest.TestCase):
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_lt(self):
-        obj = SomeModel.objects.create(secret=7)
+        obj = SomeModel(secret=7)
 
         q_obj = Q(secret__gem__lt=8)
         self.assertTrue(q_obj.comparator(obj))
@@ -130,7 +130,7 @@ class TestQ(unittest.TestCase):
         self.assertFalse(q_obj.comparator(obj))
 
     def test_nested_lte(self):
-        obj = SomeModel.objects.create(secret=7)
+        obj = SomeModel(secret=7)
 
         q_obj = Q(secret__gem__lte=8)
         self.assertTrue(q_obj.comparator(obj))
@@ -143,7 +143,7 @@ class TestQ(unittest.TestCase):
 
     def test_nested_startswith(self):
         q_obj = Q(secret__gem__startswith='rub')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))
 
         q_obj = Q(secret__gem__startswith='rb')
@@ -151,5 +151,5 @@ class TestQ(unittest.TestCase):
 
     def test_nested_istartswith(self):
         q_obj = Q(secret__gem__istartswith='RUB')
-        obj = SomeModel.objects.create()
+        obj = SomeModel()
         self.assertTrue(q_obj.comparator(obj))

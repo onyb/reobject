@@ -37,13 +37,6 @@ class Manager(object):
     def count(self):
         return self.all().count()
 
-    def create(self, **kwargs):
-        obj = self.model(**kwargs)
-        obj.created = obj.updated = datetime.utcnow()
-
-        self._object_store.add(obj)
-        return obj
-
     def earliest(self, field_name=None):
         return self.all().earliest(field_name)
 
