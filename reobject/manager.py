@@ -1,8 +1,5 @@
-from datetime import datetime
-import random
-
 from reobject.query import QuerySet, EmptyQuerySet
-from reobject.model import Model
+
 
 class ManagerDescriptor(object):
     """
@@ -52,7 +49,7 @@ class Manager(object):
         """
         return self.all().count()
 
-    def earliest(self, field_name: str = 'created') -> Model:
+    def earliest(self, field_name: str = 'created') -> object:
         """
         Returns the earliest object, by date, using the field_name provided as
         the date field.
@@ -71,7 +68,7 @@ class Manager(object):
     def filter(self, **kwargs):
         return self.all().filter(**kwargs)
 
-    def first(self) -> Model:
+    def first(self) -> object:
         """
         Returns the first model instance created.
         """
@@ -83,13 +80,13 @@ class Manager(object):
     def get_or_create(self, defaults=None, **kwargs):
         return self.all().get_or_create(defaults, **kwargs)
 
-    def last(self) -> Model:
+    def last(self) -> object:
         """
         Returns the last model instance created.
         """
         return self.all().latest()
 
-    def latest(self, field_name: str = 'created') -> Model:
+    def latest(self, field_name: str = 'created') -> object:
         """
         Returns the latest object, by date, using the field_name provided as
         the date field.
@@ -109,7 +106,7 @@ class Manager(object):
         """
         return EmptyQuerySet(model=self.model)
 
-    def random(self) -> Model:
+    def random(self) -> object:
         """
         Returns a random model instance.
         """
