@@ -6,7 +6,13 @@
 
 **Warning:** This is an alpha software, and the API is subject to change.
 
-### Example Usage
+### Installation
+
+```sh
+pip install reobject
+```
+
+### Example usage
 
 Inherit from the `Model` class.
 ```py3
