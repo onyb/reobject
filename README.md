@@ -1,6 +1,9 @@
 # reobject
 
-[![Build Status](https://travis-ci.org/onyb/reobject.svg?branch=master)](https://travis-ci.org/onyb/reobject) [![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
+[![Build Status](https://travis-ci.org/onyb/reobject.svg?branch=master)](https://travis-ci.org/onyb/reobject)
+[![PyPI version](https://badge.fury.io/py/reobject.svg)](https://badge.fury.io/py/reobject)
+[![PyPI](https://img.shields.io/pypi/pyversions/reobject.svg)](https://pypi.python.org/pypi/reobject)
+[![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
 
 *reobject* is an ORM layer for your objects. Add a mixin to your Python classes and assume the ability to track and query objects at runtime!
 
