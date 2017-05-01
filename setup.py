@@ -5,12 +5,9 @@ from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
     name='reobject',
-    version='0.5a2',
+    version='0.5a3',
     description='Python without ifs and buts',
     url='https://github.com/onyb/reobject',
     author='Anirudha Bose',
@@ -28,8 +25,6 @@ setup(
         'Programming Language :: Python :: 3.6',
     ],
     keywords='orm python object-oriented-programming',
-    packages=find_packages(exclude=['examples', 'docs', 'tests']),
-    install_requires=[],
     extras_require={
         'dev': ['ipython', 'twine'],
         'test': ['pytest', 'pytest-cov', 'codecov'],
