@@ -43,10 +43,7 @@ class QuerySet(list):
             model=self.model
         )
 
-    def earliest(self, field_name=None):
-        if not field_name:
-            field_name = 'created'
-
+    def earliest(self, field_name='created'):
         try:
             obj = self.filter(
                 **{field_name + '__isnone': False}
@@ -125,10 +122,7 @@ class QuerySet(list):
         else:
             return obj
 
-    def latest(self, field_name=None):
-        if not field_name:
-            field_name = 'created'
-
+    def latest(self, field_name='created'):
         try:
             obj = self.filter(
                 **{field_name + '__isnone': False}

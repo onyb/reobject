@@ -2,9 +2,12 @@ from datetime import datetime
 import random
 
 from reobject.query import QuerySet, EmptyQuerySet
-
+from reobject.model import Model
 
 class ManagerDescriptor(object):
+    """
+    Descriptor class to deny access of manager methods via model instances.
+    """
     def __init__(self):
         self.manager = None
 
@@ -21,6 +24,10 @@ class ManagerDescriptor(object):
 
 
 class Manager(object):
+    """
+    Manager class holding the centralized object store, and providing proxies
+    to various QuerySet methods.
+    """
     def __init__(self, model):
         self._object_store = set()
         self.model = model
@@ -28,16 +35,34 @@ class Manager(object):
     def __contains__(self, item):
         return bool(self.get(name=item))
 
-    def all(self):
+    def all(self) -> QuerySet:
+        """
+        Returns a QuerySet of all model instances.
+        """
         return QuerySet(
             self._object_store,
             model=self.model
         )
 
-    def count(self):
+    def count(self) -> int:
+        """
+        Returns an integer representing the total number of model instances.
+
+        Proxy to the QuerySet.count() method.
+        """
         return self.all().count()
 
-    def earliest(self, field_name=None):
+    def earliest(self, field_name: str = 'created') -> Model:
+        """
+        Returns the earliest object, by date, using the field_name provided as
+        the date field.
+
+        Proxy to the QuerySet.earliest method.
+
+        :param field_name: Name of attribute containing datetime object
+        :return: Model instance if exists, None otherwise.
+        """
+
         return self.all().earliest(field_name)
 
     def exclude(self, **kwargs):
@@ -46,7 +71,10 @@ class Manager(object):
     def filter(self, **kwargs):
         return self.all().filter(**kwargs)
 
-    def first(self):
+    def first(self) -> Model:
+        """
+        Returns the first model instance created.
+        """
         return self.all().earliest()
 
     def get(self, **kwargs):
@@ -55,16 +83,36 @@ class Manager(object):
     def get_or_create(self, defaults=None, **kwargs):
         return self.all().get_or_create(defaults, **kwargs)
 
-    def last(self):
+    def last(self) -> Model:
+        """
+        Returns the last model instance created.
+        """
         return self.all().latest()
 
-    def latest(self, field_name=None):
+    def latest(self, field_name: str = 'created') -> Model:
+        """
+        Returns the latest object, by date, using the field_name provided as
+        the date field.
+
+        Proxy to the QuerySet.latest method.
+
+        :param field_name: Name of attribute containing datetime object
+        :return: Model instance if exists, None otherwise.
+        """
         return self.all().latest(field_name)
 
-    def none(self):
+    def none(self) -> EmptyQuerySet:
+        """
+        Returns an EmptyQuerySet.
+
+        Useful in reduce operations on QuerySets.
+        """
         return EmptyQuerySet(model=self.model)
 
-    def random(self):
+    def random(self) -> Model:
+        """
+        Returns a random model instance.
+        """
         return self.all().random()
 
     def _clear(self):

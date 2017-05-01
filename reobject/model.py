@@ -5,7 +5,8 @@ from reobject.manager import ManagerDescriptor
 
 class ModelBase(type):
     """
-    Metaclass for all models
+    Metaclass for all models, used to attach the objects class attribute
+    to the model instance at runtime.
     """
 
     def __new__(cls, name, bases, attrs):
@@ -31,14 +32,22 @@ class Model(object, metaclass=ModelBase):
         return cls
 
     @property
-    def id(self):
+    def id(self) -> int:
+        """
+        Returns a unique integer identifier for the object.
+        """
         return id(self)
 
     @property
-    def pk(self):
+    def pk(self) -> int:
+        """
+        Returns a unique integer identifier for the object.
+
+        Alias of the id property.
+        """
         return self.id
 
-    def delete(self):
+    def delete(self) -> None:
         type(self).objects._delete(self)
 
     @property
