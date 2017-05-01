@@ -12,7 +12,6 @@ setup(
     name='reobject',
     version='0.5a1',
     description='Python without ifs and buts',
-    long_description=long_description,
     url='https://github.com/onyb/reobject',
     author='Anirudha Bose',
     author_email='ani07nov@gmail.com',
