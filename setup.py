@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='reobject',
-    version='0.5a1',
+    version='0.5a2',
     description='Python without ifs and buts',
     url='https://github.com/onyb/reobject',
     author='Anirudha Bose',
