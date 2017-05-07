@@ -57,6 +57,13 @@ Reasons why you should consider using reobject:
 * You want to implement design patterns without all that boilerplate.
 * You care about maintainability, and cleanliness.
 
+### Crunching Design Patterns
+
+|  Pattern  |                        Description                       | Pure Python | reobject |
+|:---------:|:--------------------------------------------------------:|:--------:|:-----------:|
+| Flyweight | Reuse existing instances of objects with identical state | [Link](https://github.com/faif/python-patterns/blob/master/structural/flyweight.py) | [Link](examples/flyweight.py) |
+
+
 ### Contributing
 
 Want to help? Please review the [contributing guidelines](CONTRIBUTING.md), and take a look at some [good first bugs](https://github.com/onyb/reobject/issues?q=is%3Aissue+is%3Aopen+label%3Abitesize)!
