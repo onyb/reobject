@@ -7,6 +7,7 @@ class ManagerDescriptor(object):
     """
     Descriptor class to deny access of manager methods via model instances.
     """
+
     def __init__(self):
         self.manager = None
 
@@ -27,6 +28,7 @@ class Manager(object):
     Manager class holding the centralized object store, and providing proxies
     to various QuerySet methods.
     """
+
     def __init__(self, model):
         self._object_store = set()
         self.model = model
@@ -38,6 +40,12 @@ class Manager(object):
         instance.created = instance.updated = datetime.utcnow()
         self._object_store.add(instance)
         return instance
+
+    def _clear(self):
+        self._object_store.clear()
+
+    def _delete(self, obj):
+        self._object_store.discard(obj)
 
     def all(self) -> QuerySet:
         """
@@ -118,9 +126,3 @@ class Manager(object):
         Returns a random model instance.
         """
         return self.all().random()
-
-    def _clear(self):
-        self._object_store.clear()
-
-    def _delete(self, obj):
-        self._object_store.remove(obj)
