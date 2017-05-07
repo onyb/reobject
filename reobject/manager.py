@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from reobject.query import QuerySet, EmptyQuerySet
 
 
@@ -31,6 +33,11 @@ class Manager(object):
 
     def __contains__(self, item):
         return bool(self.get(name=item))
+
+    def _add(self, instance: object) -> object:
+        instance.created = instance.updated = datetime.utcnow()
+        self._object_store.add(instance)
+        return instance
 
     def all(self) -> QuerySet:
         """
