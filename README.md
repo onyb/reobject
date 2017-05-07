@@ -62,6 +62,7 @@ Reasons why you should consider using reobject:
 |  Pattern  |                        Description                       | Pure Python | reobject |
 |:---------:|:--------------------------------------------------------:|:--------:|:-----------:|
 | Flyweight | Reuse existing instances of objects with identical state | [Link](https://github.com/faif/python-patterns/blob/master/structural/flyweight.py) | [Link](examples/flyweight.py) |
+| Memento   | Transactional rollback of an object to a previous state in case of an exception | [Link](https://github.com/faif/python-patterns/blob/master/behavioral/memento.py) | [Link](tests/unit/test_transaction.py) |
 
 
 ### Contributing
