@@ -8,3 +8,7 @@ class DoesNotExist(ModelException):
 
 class MultipleObjectsReturned(ModelException):
     pass
+
+
+class CorruptTransactionException(ModelException):
+    pass
