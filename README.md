@@ -32,17 +32,17 @@ Create a bunch of objects:
 >>> Book(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
 >>> Book(title='The AWK Programming Language', authors=['Aho', 'Kernighan'], price=127)
 ```
-Get all books
+Get all books:
 ```py3
 >>> Book.objects.all()
 [<Book: 140707840041088>, <Book: 140707840125584>, <Book: 140707840083056>]
 ```
-Get the titles of all books which cost less than 100 USD, sorted by price.
+Get the titles of all books which cost less than 100 USD, sorted by price:
 ```py3
 >>> Book.objects.filter(price__lte=100).order_by('price').values('title')
 [{'title': 'The Go Programming Language'}, {'title': 'The C Programming Language'}]
 ```
-Get titles of all books co-authored by Brian Kernighan
+Get titles of all books co-authored by Brian Kernighan:
 ```py3
 >>> Book.objects.filter(authors__contains='Kernighan').values_list('title', flat=True)
 ['The Go Programming Language', 'The C Programming Language', 'The AWK Programming Language']
