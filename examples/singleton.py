@@ -10,9 +10,8 @@ class Singleton(Model):
         self.value = value
 
     def __new__(cls, *args, **kwargs):
-        pool = Singleton.objects.filter()
-        if pool.exists():
-            return pool.get()
+        if Singleton.objects.count():
+            return Singleton.objects.get()
         else:
             return super().__new__(cls, *args, **kwargs)
 
