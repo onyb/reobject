@@ -65,7 +65,11 @@ Reasons why you should consider using reobject:
 | Memento   | Transactional rollback of an object to a previous state in case of an exception | [Link](https://github.com/faif/python-patterns/blob/master/behavioral/memento.py) | [Link](tests/unit/test_transaction.py) |
 | Prototype | Create clones of a prototype without instantiation       | [Link](https://github.com/faif/python-patterns/blob/master/creational/prototype.py) | [Link](examples/prototype.py) |
 | Singleton | Restrict a class to provide only a single instance       | [Link](http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html) | [Link](examples/singleton.py) |
+| Facade    | Encapsulate a complex subsystem within a single interface object | [Link](https://github.com/faif/python-patterns/blob/master/structural/facade.py) [2] | [Link](examples/facade.py) |
 
+
+[1] Implementation missing
+[2] Incorrect/inaccurate implementation
 
 ### Contributing
 
