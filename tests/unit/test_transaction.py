@@ -14,7 +14,7 @@ class Number(Model):
         self.value += 1  # should rollback
 
 
-class TestQuerySet(unittest.TestCase):
+class TestTransaction(unittest.TestCase):
     def setUp(self):
         self.num = Number(value=-1)
 
@@ -39,3 +39,7 @@ class TestQuerySet(unittest.TestCase):
                 self.num.value += 1
         except TypeError:
             self.assertEqual(self.num.value, -1)
+
+
+if __name__ == '__main__':
+    unittest.main()
