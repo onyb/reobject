@@ -5,7 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/reobject.svg)](https://pypi.python.org/pypi/reobject)
 [![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
 
-*reobject* is an ORM layer for your objects. Add a mixin to your Python classes and assume the ability to track and query objects at runtime!
+*reobject* is an ORM layer for your objects. Simple, add a mixin to your Python class and assume the ability to track and query objects at runtime!
 
 **Warning:** This is an alpha software, and the API is subject to change.
 
@@ -30,32 +30,31 @@ Create a bunch of objects:
 ```py3
 >>> Book(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
 >>> Book(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
->>> Book(title='The AWK Programming Language', authors=['Aho', 'Kernighan'], price=127)
 ```
 Get all books:
 ```py3
 >>> Book.objects.all()
-[<Book: 140707840041088>, <Book: 140707840125584>, <Book: 140707840083056>]
+[<Book: 140707840041088>, <Book: 140707840125584>]
 ```
-Get the titles of all books which cost less than 100 USD, sorted by price:
+Get the titles of all books which cost less than 50 USD:
 ```py3
->>> Book.objects.filter(price__lte=100).order_by('price').values('title')
+>>> Book.objects.filter(price__lt=50).values('title')
 [{'title': 'The Go Programming Language'}, {'title': 'The C Programming Language'}]
 ```
 Get titles of all books co-authored by Brian Kernighan:
 ```py3
 >>> Book.objects.filter(authors__contains='Kernighan').values_list('title', flat=True)
-['The Go Programming Language', 'The C Programming Language', 'The AWK Programming Language']
+['The Go Programming Language', 'The C Programming Language']
 ```
 
-### Why?
+### Features
 
-Reasons why you should consider using reobject:
-
-* You are refactoring a codebase with years of accumulated code-vomit.
-* Your code looks like a Christmas tree.
-* You want to implement design patterns without all that boilerplate.
-* You care about maintainability, and cleanliness.
+* Elegant data-model syntax inspired by Django ORM.
+* Plug and play: works without refactoring your existing codebase.
+* Chainable operations on querysets.
+* Transactions.
+* [TBA] Attribute indexes for fast lookups.
+* [TBA] Many-to-one class relationships.
 
 ### Crunching Design Patterns
 
@@ -70,6 +69,14 @@ Reasons why you should consider using reobject:
 
 [1] Implementation missing
 [2] Incorrect/inaccurate implementation
+
+### Why?
+
+* You are refactoring a codebase with years of accumulated code-vomit.
+* Your code looks like a Christmas tree.
+* You want to implement design patterns without the boilerplate.
+* You care about maintainability, and cleanliness.
+
 
 ### Contributing
 
