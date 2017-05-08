@@ -68,9 +68,9 @@ Reasons why you should consider using reobject:
 | Facade    | Encapsulate a complex subsystem within a single interface object | [Link](https://github.com/faif/python-patterns/blob/master/structural/facade.py) <sup>[2]</sup> | [Link](examples/facade.py) |
 
 
-<sup>[1]</sup> <sub>Implementation is missing</sub>
+<sub>[1] Implementation is missing</sub>
 
-<sup>[2]</sup> <sub>Implementation is incorrect/inaccurate</sub>
+<sub>[2] Implementation is incorrect/inaccurate</sub>
 
 ### Contributing
 
