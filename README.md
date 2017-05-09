@@ -17,32 +17,26 @@ pip install reobject
 
 ### Example usage
 
-Inherit from the `Model` class.
 ```py3
 from reobject.model import Model
 
 class Book(Model):
     def __init__(self, title, authors, price):
         self.title, self.authors, self.price = title, authors, price
-```
 
-Create a bunch of objects:
-```py3
+>>> # Create a bunch of objects:
 >>> Book(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
 >>> Book(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
-```
-Get all books:
-```py3
+
+>>> # Get all books
 >>> Book.objects.all()
 [<Book: 140707840041088>, <Book: 140707840125584>]
-```
-Get the titles of all books which cost less than 50 USD:
-```py3
+
+>>> # Get the titles of all books which cost less than 50 USD:
 >>> Book.objects.filter(price__lt=50).values('title')
 [{'title': 'The Go Programming Language'}, {'title': 'The C Programming Language'}]
-```
-Get titles of all books co-authored by Brian Kernighan:
-```py3
+
+>>> # Get titles of all books co-authored by Brian Kernighan:
 >>> Book.objects.filter(authors__contains='Kernighan').values_list('title', flat=True)
 ['The Go Programming Language', 'The C Programming Language']
 ```
