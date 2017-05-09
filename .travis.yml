@@ -8,5 +8,8 @@ python:
 
 install: pip install -r test-requirements.txt
 
-script: py.test tests --cov=./reobject
+script:
+  - py.test tests --cov=./reobject
+  - py.test examples
+
 after_success: codecov
