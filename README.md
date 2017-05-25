@@ -60,10 +60,7 @@ class Book(Model):
 | Singleton | Restrict a class to provide only a single instance       | [Link](http://python-3-patterns-idioms-test.readthedocs.io/en/latest/Singleton.html) | [Link](examples/singleton.py) |
 | Facade    | Encapsulate a complex subsystem within a single interface object | [Link](https://github.com/faif/python-patterns/blob/master/structural/facade.py) <sup>[2]</sup> | [Link](examples/facade.py) |
 
-
-<sub>[1] Implementation is missing</sub>
-
-<sub>[2] Implementation is incorrect/inaccurate</sub>
+<sub><b>Note:</b> The idea is not to provide accurate implementations of various patterns, but to demonstrate what <i>reobject</i> is capable of. Pull requests are most welcome.</sub>
 
 ### Why?
 
