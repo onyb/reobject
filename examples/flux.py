@@ -1,3 +1,5 @@
+import unittest
+
 from reobject.model import Model
 
 
@@ -78,12 +80,15 @@ class View(Model):
         self.called += 1
 
 
-if __name__ == '__main__':
-    view = View()
-    Dispatcher.register(Counter)
+class TestFlux(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        View()
+        Dispatcher.register(Counter)
 
-    increment()
-    increment()
+    def test_flux_increment(self):
+        increment()
+        increment()
 
-    assert view.called == 2, view.called
-    assert Counter.get_state() == 2
+        assert View.objects.get().called == 2
+        assert Counter.get_state() == 2
