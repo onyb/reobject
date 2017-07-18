@@ -23,10 +23,6 @@ class Model(object, metaclass=ModelBase):
         instance = super(Model, cls).__new__(cls)
         return cls.objects._add(instance)
 
-    @classmethod
-    def _get_cls(cls):
-        return cls
-
     @property
     def id(self) -> int:
         """
