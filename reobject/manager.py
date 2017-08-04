@@ -30,7 +30,7 @@ class Manager(object):
     """
 
     def __init__(self, model):
-        self._object_store = set()
+        self._object_store = list()
         self.model = model
 
     def __contains__(self, item):
@@ -38,14 +38,14 @@ class Manager(object):
 
     def _add(self, instance: object) -> object:
         instance.created = instance.updated = datetime.utcnow()
-        self._object_store.add(instance)
+        self._object_store.append(instance)
         return instance
 
     def _clear(self):
         self._object_store.clear()
 
     def _delete(self, obj):
-        self._object_store.discard(obj)
+        self._object_store.remove(obj)
 
     def all(self) -> QuerySet:
         """
