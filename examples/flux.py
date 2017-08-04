@@ -1,6 +1,6 @@
 import unittest
 
-from reobject.models.model import Model
+from reobject.models import Model, Field
 
 
 class Dispatcher(object):
@@ -73,8 +73,7 @@ def increment():
 
 
 class View(Model):
-    def __init__(self):
-        self.called = 0
+    called = Field(default=0)
 
     def __call__(self, *args, **kwargs):
         self.called += 1

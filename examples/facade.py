@@ -3,7 +3,7 @@
 import time
 import unittest
 
-from reobject import Model
+from reobject.models import Model, Field
 
 
 # Complex Parts
