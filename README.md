@@ -18,11 +18,12 @@ pip install reobject
 ### Example usage
 
 ```py3
-from reobject.model import Model
+from reobject.models import Model, Field
 
 class Book(Model):
-    def __init__(self, title, authors, price):
-        self.title, self.authors, self.price = title, authors, price
+    title = Field()
+    authors = Field()
+    price = Field()
 
 >>> # Create a bunch of objects:
 >>> Book(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
