@@ -2,15 +2,14 @@ import unittest
 from random import randint
 
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
-from reobject.model import Model
+from reobject.models import Model, Field
 from reobject.query import QuerySet, EmptyQuerySet
 
 
 class SomeModel(Model):
-    def __init__(self, p, q=None, r=None):
-        self.p = p
-        self.q = q or randint(1, 10000)
-        self.r = r
+    p = Field()
+    q = Field(default=lambda: randint(1, 10000))
+    r = Field(default=None)
 
 
 class TestQuerySet(unittest.TestCase):
@@ -81,7 +80,7 @@ class TestQuerySet(unittest.TestCase):
         SomeModel(p='foo', q=1)
         SomeModel(p='bar', q=0)
 
-        self.assertEqual(SomeModel.objects.filter(q__gte=1).exclude(p='foo').count(), 1)
+        self.assertEqual(SomeModel.objects.filter(q__gte=1).exclude(p='foo').count(), 0)
         self.assertEqual(SomeModel.objects.filter().exclude(q__gte=0).count(), 0)
 
     def test_manager_exclude_some_multiple_kwargs(self):

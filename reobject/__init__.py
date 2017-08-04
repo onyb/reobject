@@ -1,4 +1,4 @@
-from .manager import Manager
-from .model import Model
-from .query.queryset import QuerySet, EmptyQuerySet
-from .transaction import transactional, Transaction
+from reobject.models.manager import Manager
+from reobject.models import Model, Field
+from reobject.query.queryset import QuerySet, EmptyQuerySet
+from reobject.transaction import transactional, Transaction

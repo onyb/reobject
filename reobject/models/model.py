@@ -1,6 +1,6 @@
 from attr import attributes
 
-from reobject.manager import ManagerDescriptor
+from reobject.models.manager import ManagerDescriptor
 
 
 class ModelBase(type):

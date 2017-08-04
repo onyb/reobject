@@ -1,12 +1,11 @@
 import unittest
 
 from reobject import Transaction, transactional
-from reobject.model import Model
+from reobject.models import Model, Field
 
 
 class Number(Model):
-    def __init__(self, value):
-        self.value = value
+    value = Field()
 
     @transactional
     def kaboom(self):

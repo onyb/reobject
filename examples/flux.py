@@ -1,6 +1,6 @@
 import unittest
 
-from reobject.model import Model
+from reobject.models.model import Model
 
 
 class Dispatcher(object):

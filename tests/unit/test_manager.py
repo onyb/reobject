@@ -1,14 +1,13 @@
 import unittest
 from datetime import datetime
 
-from reobject.model import Model
+from reobject.models import Model, Field
 
 
 class SomeModel(Model):
-    def __init__(self, p, q, r):
-        self.p = p
-        self.q = q
-        self.r = r
+    p = Field()
+    q = Field()
+    r = Field()
 
 
 class TestQuery(unittest.TestCase):
