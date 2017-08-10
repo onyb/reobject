@@ -2,12 +2,12 @@
 
 import unittest
 
-from reobject.models.model import Model
+from reobject.models import Model, Field
 
 
 class Card(Model):
-    def __init__(self, suit, color):
-        self.suit, self.color = suit, color
+    suit = Field()
+    color = Field()
 
 
 class TestCard(unittest.TestCase):
@@ -27,8 +27,7 @@ class TestCard(unittest.TestCase):
         c1.delete()
         self.assertEqual(Card.objects.count(), 1)
 
-        c2.delete()
-        self.assertEqual(Card.objects.count(), 1)
+        self.assertNotIn(c2, Card.objects.all())
 
         c3.delete()
         self.assertEqual(Card.objects.count(), 0)

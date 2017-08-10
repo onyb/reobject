@@ -3,7 +3,7 @@
 import unittest
 from copy import deepcopy
 
-from reobject import Model
+from reobject.models import Model
 
 
 class Prototype(Model):

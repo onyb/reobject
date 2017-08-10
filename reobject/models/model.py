@@ -18,7 +18,11 @@ class ModelBase(type):
 
 class Model(object, metaclass=ModelBase):
     def __attrs_post_init__(self):
-        return type(self).objects._add(self)
+        pass
+
+    def __new__(cls, *args, **kwargs):
+        instance = super(Model, cls).__new__(cls)
+        return cls.objects._add(instance)
 
     @property
     def id(self) -> int:

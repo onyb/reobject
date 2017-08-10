@@ -2,18 +2,17 @@
 
 import unittest
 
-from reobject import Model
+from reobject.models import Model, Field
 
 
 class Singleton(Model):
-    def __init__(self, value=None):
-        self.value = value
+    value = Field(default=None)
 
     def __new__(cls, *args, **kwargs):
-        if Singleton.objects.count():
-            return Singleton.objects.get()
+        if cls.objects.count() == 0:
+            return super().__new__(cls)
         else:
-            return super().__new__(cls, *args, **kwargs)
+            return cls.objects.get()
 
 
 class TestSingleton(unittest.TestCase):
