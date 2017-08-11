@@ -17,7 +17,7 @@ class TestQuerySet(unittest.TestCase):
         pass
 
     def tearDown(self):
-        SomeModel.objects._clear()
+        SomeModel.objects.all().delete()
 
     def test_pipe(self):
         SomeModel(p='foo')

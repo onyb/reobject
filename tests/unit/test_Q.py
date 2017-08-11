@@ -21,7 +21,7 @@ class SecretModel(Model):
 
 class TestQ(unittest.TestCase):
     def tearDown(self):
-        SecretModel.objects._clear()
+        SecretModel.objects.all().delete()
 
     def test_simple(self):
         q_obj = Q(question='What?')

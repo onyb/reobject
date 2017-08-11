@@ -15,7 +15,7 @@ class TestQuery(unittest.TestCase):
         pass
 
     def tearDown(self):
-        SomeModel.objects._clear()
+        SomeModel.objects.all().delete()
 
     def test_descriptor_cls(self):
         try:

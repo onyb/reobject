@@ -18,7 +18,7 @@ class TestTransaction(unittest.TestCase):
         self.num = Number(value=-1)
 
     def tearDown(self):
-        Number.objects._clear()
+        Number.objects.all().delete()
 
     def test_transaction_decorator(self):
         self.assertEqual(self.num.value, -1)
