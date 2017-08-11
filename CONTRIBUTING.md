@@ -1,12 +1,5 @@
 ### Contributing Guidelines
 
-Here are a few ways you can contribute:
-
-- Check the `bitesize` tag for beginner-level issues.
-- Add API documentation.
-- Improving the test coverage.
-- Propose/implement enhancements.
-
 #### Pull Requests
 I would like to have a 100% acceptance rate for pull requests. Here is what you can do to help me achieve that:
 
