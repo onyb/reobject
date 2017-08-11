@@ -1,13 +1,8 @@
-from codecs import open
-from os import path
-
 from setuptools import setup, find_packages
-
-here = path.abspath(path.dirname(__file__))
 
 setup(
     name='reobject',
-    version='0.8a',
+    version='0.8a1',
     description='Python without ifs and buts',
     url='https://github.com/onyb/reobject',
     author='Anirudha Bose',
@@ -24,9 +19,9 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
-    keywords='orm python object-oriented-programming',
-    extras_require={
-        'dev': ['ipython', 'twine'],
-        'test': ['pytest', 'pytest-cov', 'codecov'],
-    }
+    keywords=['orm', 'python', 'object-oriented-programming', 'django'],
+    install_requires=[
+       'attrs>=17.2.0',
+    ],
+    packages=find_packages(exclude=['tests', 'tests.*']),
 )
