@@ -5,9 +5,8 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/reobject.svg)](https://pypi.python.org/pypi/reobject)
 [![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
 
-*reobject* is an ORM layer for your objects. Simple, add a mixin to your Python class and assume the ability to track and query objects at runtime!
-
-**Warning:** This is an alpha software, and the API is subject to change.
+*reobject* is an ORM layer for your objects. Simply, add a mixin to your Python
+class and magically assume the ability to track and query objects at runtime!
 
 ### Installation
 
@@ -25,19 +24,18 @@ class Book(Model):
     authors = Field()
     price = Field()
 
->>> # Create a bunch of objects:
+>>> # Create a bunch of objects
 >>> Book(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52)
 >>> Book(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)
 
->>> # Get all books
->>> Book.objects.all()
-[<Book: 140707840041088>, <Book: 140707840125584>]
+>>> Book.objects.all()  # All books
+[Book(title='The C Programming Language', authors=['Kernighan', 'Ritchie'], price=52),
+ Book(title='The Go Programming Language', authors=['Donovan', 'Kernighan'], price=30)]
 
->>> # Get the titles of all books which cost less than 50 USD:
->>> Book.objects.filter(price__lt=50).values('title')
+>>> Book.objects.filter(price__lt=50).values('title')  # Titles of books priced under $50
 [{'title': 'The Go Programming Language'}, {'title': 'The C Programming Language'}]
 
->>> # Get titles of all books co-authored by Brian Kernighan:
+>>> # Titles of books co-authored by Brian Kernighan
 >>> Book.objects.filter(authors__contains='Kernighan').values_list('title', flat=True)
 ['The Go Programming Language', 'The C Programming Language']
 ```
@@ -45,7 +43,7 @@ class Book(Model):
 ### Features
 
 * Elegant data-model syntax inspired by Django ORM.
-* Plug and play: works without refactoring your existing codebase.
+* Class-level model fields, out of the box object protocols, pretty reprs; powered by [attrs](http://attrs.org).
 * Chainable operations on querysets.
 * Transactions.
 * [TBA] Attribute indexes for fast lookups.
@@ -66,12 +64,17 @@ class Book(Model):
 
 ### Why?
 
-* You are refactoring a codebase with years of accumulated code-vomit.
-* Your code looks like a Christmas tree.
-* You want to implement design patterns without the boilerplate.
-* You care about maintainability, and cleanliness.
-
+* Your boss asked you to refactor a codebase with years of accumulated code-vomit.
+* Your code is starting to look like a Christmas tree.
+* You want to implement/invent design patterns without the boilerplate.
 
 ### Contributing
 
-Want to help? Please review the [contributing guidelines](CONTRIBUTING.md), and take a look at some [good first bugs](https://github.com/onyb/reobject/issues?q=is%3Aissue+is%3Aopen+label%3Abitesize)!
+Want to help? For a start, you can contribute to the project by:
+
+* Using reobject in your projects, proposing new features, or trying it out just for fun.
+* Sending pull requests with recipes cooked using reobject.
+* Trying your hand at some [good first bugs](https://github.com/onyb/reobject/issues?q=is%3Aissue+is%3Aopen+label%3Abitesize).
+* Improving test coverage, and writing documentation.
+
+<sub>I even added some [Contributing guidelines](CONTRIBUTING.md) to make GitHub happy.</sub>
