@@ -39,7 +39,7 @@ class Model(object, metaclass=ModelBase):
                     RelatedManagerDescriptor(model=cls)
                 )
 
-        return cls.objects._add(instance)
+        return cls.objects.add(instance)
 
     @property
     def id(self) -> int:

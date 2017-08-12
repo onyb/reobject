@@ -78,7 +78,7 @@ class Manager(object):
             model=self.model
         )
 
-    def _add(self, instance: object) -> object:
+    def add(self, instance: object) -> object:
         instance.created = instance.updated = datetime.utcnow()
         self.store.append(instance)
         return instance
