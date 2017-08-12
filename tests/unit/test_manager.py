@@ -1,7 +1,9 @@
 import unittest
 from datetime import datetime
 
-from reobject.models import Model, Field
+from reobject.models.fields import Field, ManyToManyField
+from reobject.models.manager import Manager
+from reobject.models.model import Model
 
 
 class SomeModel(Model):
@@ -54,3 +56,53 @@ class TestQuery(unittest.TestCase):
 
     def test_manager_model(self):
         self.assertEqual(SomeModel.objects.model, SomeModel)
+
+
+class Teacher(Model):
+    pass
+
+
+class Student(Model):
+    teacher = ManyToManyField(Teacher)
+
+
+class TestRelatedManager(unittest.TestCase):
+    def setUp(self):
+        self.teacher_a = Teacher()
+        self.teacher_b = Teacher()
+
+        Student(teacher=self.teacher_a)
+        Student(teacher=self.teacher_a)
+        Student(teacher=self.teacher_a)
+        Student(teacher=self.teacher_b)
+        Student(teacher=self.teacher_b)
+
+    def tearDown(self):
+        Teacher.objects.all().delete()
+        Student.objects.all().delete()
+
+    def test_manager_cls(self):
+        self.assertIsInstance(Teacher.objects, Manager)
+        self.assertIsInstance(Student.objects, Manager)
+
+        self.assertEqual(self.teacher_a.student_set.__class__.__name__, 'RelatedManager')
+        self.assertEqual(self.teacher_a.student_set.model, Student)
+
+    def test_many_to_many_relationship(self):
+        self.assertEqual(
+            self.teacher_a.student_set.all(),
+            Student.objects.filter(teacher__pk=self.teacher_a.pk)
+        )
+
+        self.assertEqual(
+            self.teacher_a.student_set.count(), 3
+        )
+
+        self.assertEqual(
+            self.teacher_b.student_set.all(),
+            Student.objects.filter(teacher__pk=self.teacher_b.pk)
+        )
+
+        self.assertEqual(
+            self.teacher_b.student_set.count(), 2
+        )
