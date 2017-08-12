@@ -16,4 +16,4 @@ def ManyToManyField(cls, *args, **kwargs):
         }
     }
 
-    return attr.ib(*args, **kwargs, metadata=metadata)
+    return attr.ib(*args, metadata=metadata, **kwargs)
