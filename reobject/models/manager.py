@@ -79,6 +79,14 @@ class Manager(object):
         )
 
     def add(self, instance: object) -> object:
+        if not isinstance(instance, self.model):
+            raise TypeError(
+                '{model} instance expected, got {obj}'.format(
+                    model=self.model.__name__,
+                    obj=instance
+                )
+            )
+
         instance.created = instance.updated = datetime.utcnow()
         self.store.append(instance)
         return instance
