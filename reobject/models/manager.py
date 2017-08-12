@@ -83,9 +83,6 @@ class Manager(object):
         self.store.append(instance)
         return instance
 
-    def _clear(self):
-        self.store.clear()
-
     def _delete(self, obj):
         self.store.remove(obj)
 
