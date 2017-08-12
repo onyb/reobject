@@ -117,3 +117,11 @@ class Q(object):
             map(lambda k: _Q(**{k: kwargs[k]}), kwargs),
             _Q()
         )
+
+    @classmethod
+    def from_Qs(cls, *args):
+        return reduce(
+            operator.and_,
+            args,
+            _Q()
+        )
