@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from reobject.models.store import ModelStoreMapping
 from reobject.query import QuerySet, EmptyQuerySet
 
 
@@ -23,6 +24,29 @@ class ManagerDescriptor(object):
             return self.manager
 
 
+class RelatedManagerDescriptor(object):
+    """
+    Descriptor class to deny access of manager methods via model instances.
+    """
+
+    def __init__(self, model):
+        self.model = model
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            raise AttributeError(
+                "RelatedManager isn't accessible via %s class" % owner.__name__
+            )
+        else:
+            class RelatedManager(Manager):
+                def get_queryset(mself):
+                    return super(RelatedManager, mself).get_queryset().filter(
+                        **{'{}__pk'.format(type(instance).__name__.lower()): instance.pk}
+                    )
+
+            return RelatedManager(model=self.model)
+
+
 class Manager(object):
     """
     Manager class holding the centralized object store, and providing proxies
@@ -30,31 +54,37 @@ class Manager(object):
     """
 
     def __init__(self, model):
-        self._object_store = list()
         self.model = model
 
     def __contains__(self, item):
         return bool(self.get(name=item))
 
+    @property
+    def store(self):
+        return ModelStoreMapping.get(self.model.__name__)
+
+    def get_queryset(self):
+        return QuerySet(
+            self.store,
+            model=self.model
+        )
+
     def _add(self, instance: object) -> object:
         instance.created = instance.updated = datetime.utcnow()
-        self._object_store.append(instance)
+        self.store.append(instance)
         return instance
 
     def _clear(self):
-        self._object_store.clear()
+        self.store.clear()
 
     def _delete(self, obj):
-        self._object_store.remove(obj)
+        self.store.remove(obj)
 
     def all(self) -> QuerySet:
         """
         Returns a QuerySet of all model instances.
         """
-        return QuerySet(
-            self._object_store,
-            model=self.model
-        )
+        return self.get_queryset()
 
     def count(self) -> int:
         """
@@ -126,3 +156,8 @@ class Manager(object):
         Returns a random model instance.
         """
         return self.all().random()
+
+    def __repr__(self):
+        return '<{manager}: {model}>'.format(
+            manager=type(self).__name__, model=self.model.__name__
+        )

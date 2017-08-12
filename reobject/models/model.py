@@ -1,6 +1,7 @@
-from attr import attributes
+import attr
 
-from reobject.models.manager import ManagerDescriptor
+from reobject.models.manager import ManagerDescriptor, RelatedManagerDescriptor
+from reobject.models.store import Store, ModelStoreMapping
 
 
 class ModelBase(type):
@@ -11,9 +12,14 @@ class ModelBase(type):
 
     def __new__(cls, name, bases, attrs):
         attrs['objects'] = ManagerDescriptor()
-        return attributes(
+
+        mod = attr.s(
             super(ModelBase, cls).__new__(cls, name, bases, attrs)
         )
+
+        ModelStoreMapping[mod.__name__] = Store()
+
+        return mod
 
 
 class Model(object, metaclass=ModelBase):
@@ -22,6 +28,17 @@ class Model(object, metaclass=ModelBase):
 
     def __new__(cls, *args, **kwargs):
         instance = super(Model, cls).__new__(cls)
+
+        for field in attr.fields(cls):
+            if field.metadata.get('related'):
+                target = field.metadata['related']['target']
+
+                setattr(
+                    target,
+                    cls.__name__.lower() + '_set',
+                    RelatedManagerDescriptor(model=cls)
+                )
+
         return cls.objects._add(instance)
 
     @property
