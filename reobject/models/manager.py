@@ -6,9 +6,8 @@ from reobject.query import QuerySet, EmptyQuerySet
 
 class ManagerDescriptor(object):
     """
-    Descriptor class to deny access of manager methods via model instances.
+    Descriptor class to deny access of Manager methods via model instances.
     """
-
     def __init__(self):
         self.manager = None
 
@@ -26,9 +25,8 @@ class ManagerDescriptor(object):
 
 class RelatedManagerDescriptor(object):
     """
-    Descriptor class to deny access of manager methods via model instances.
+    Descriptor class to deny access to RelatedManager methods via model class.
     """
-
     def __init__(self, model):
         self.model = model
 
@@ -38,10 +36,21 @@ class RelatedManagerDescriptor(object):
                 "RelatedManager isn't accessible via %s class" % owner.__name__
             )
         else:
+            # RelatedManagerDescriptor is acting like a factory to dynamically
+            # create a new RelatedManager class on every owner access via
+            # the model instance.
+
+            # [TODO] - Try to cache this manager object per unique model
+            # instance.
+
             class RelatedManager(Manager):
-                def get_queryset(mself):
-                    return super(RelatedManager, mself).get_queryset().filter(
-                        **{'{}__pk'.format(type(instance).__name__.lower()): instance.pk}
+                def get_queryset(related_manager_self):
+                    cls_name = type(instance).__name__.lower()
+
+                    return super(
+                        RelatedManager, related_manager_self
+                    ).get_queryset().filter(
+                        **{'{}__pk'.format(cls_name): instance.pk}
                     )
 
             return RelatedManager(model=self.model)
