@@ -17,7 +17,8 @@ class ModelBase(type):
             super(ModelBase, cls).__new__(cls, name, bases, attrs)
         )
 
-        ModelStoreMapping[mod.__name__] = Store()
+        if 'Model' in [base.__name__ for base in bases]:
+            ModelStoreMapping[mod.__name__] = Store()
 
         return mod
 
