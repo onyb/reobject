@@ -1,10 +1,19 @@
-from attr import ib, Factory
+import attr
 
 
-def Field(*args, **kwargs):
-    default = kwargs.get('default')
+def Field(*args, default=attr.NOTHING, **kwargs):
     if callable(default):
-        kwargs.pop('default')
-        return ib(*args, default=Factory(default), **kwargs)
-    else:
-        return ib(*args, **kwargs)
+        default = attr.Factory(default)
+
+    return attr.ib(*args, default=default, **kwargs)
+
+
+def ManyToManyField(cls, *args, **kwargs):
+    metadata = {
+        'related': {
+            'target': cls,
+            'type': 'ManyToMany',
+        }
+    }
+
+    return attr.ib(*args, **kwargs, metadata=metadata)
