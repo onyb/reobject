@@ -1,6 +1,6 @@
+import random
 from collections import OrderedDict
 from itertools import chain
-import random
 
 from reobject.exceptions import DoesNotExist, MultipleObjectsReturned
 from reobject.query import Q
@@ -36,7 +36,7 @@ class QuerySet(list):
         meta = [
             (cmp(*attrs)(obj), obj)
             for obj in self.reverse()
-            ]
+        ]
 
         return type(self)(
             OrderedDict(meta).values(),
@@ -64,8 +64,8 @@ class QuerySet(list):
     def exists(self):
         return bool(self)
 
-    def filter(self, **kwargs):
-        q = Q(**kwargs)
+    def filter(self, *args, **kwargs):
+        q = Q.from_Qs(*args) & Q(**kwargs)
 
         return type(self)(
             filter(q.comparator, self),
