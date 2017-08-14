@@ -6,19 +6,19 @@ layout: default
 
 The result of a reobject query is a QuerySet.
 
-# [](#header-2)Methods that return new QuerySets
+### [](#header-2)Methods that return new QuerySets
 
 
-# [](#header-5)all()
+##### [](#header-5)all()
 
-# [](#header-5)filter(*args, **kwargs)
+##### [](#header-5)filter(*args, **kwargs)
 
-Returns a new QuerySet containing objects that match the given lookup parameters.
+Returns a new `QuerySet` containing objects that match the given lookup parameters.
 
 The lookup parameters should be specified as `**kwargs` and must conform to a
 specific format which bears close resemblance with the Django ORM.
 
-It also possible to construct complex Q objects and pass them to the `filter()`
+It also possible to construct complex `Q` objects and pass them to the `filter()`
 as `*args`.
 
 Multiple parameters (`*args` or `**kwargs`) are joined together with a logical AND.
