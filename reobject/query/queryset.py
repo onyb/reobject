@@ -53,8 +53,8 @@ class QuerySet(list):
         else:
             return obj
 
-    def exclude(self, **kwargs):
-        q = ~Q(**kwargs)
+    def exclude(self, *args, **kwargs):
+        q = ~(Q.from_Qs(*args) & Q(**kwargs))
 
         return type(self)(
             filter(q.comparator, self),
