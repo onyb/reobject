@@ -71,7 +71,6 @@ For example, some ways to exclude all objects in `queryset` where
 ```
 
 ```py
->>> # Applying De Morgan's law to achieve the same using filters and `OR`
-operator.
+>>> # Applying De Morgan's
 >>> queryset.filter(~Q(value__gte=0) | ~Q(value__lt=1)))
 ```
