@@ -1,0 +1,25 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.panel {
+  border: 1px solid #ccc;
+  padding: 10px;
+  color: #333;
+}
+
+.panel-success {
+  @extend .panel;
+  border-color: green;
+}
+
+.panel-error {
+  @extend .panel;
+  border-color: red;
+}
+
+.panel-warning {
+  @extend .panel;
+  border-color: yellow;
+}

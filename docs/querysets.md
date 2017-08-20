@@ -74,3 +74,28 @@ For example, some ways to exclude all objects in `queryset` where
 >>> # Applying De Morgan's
 >>> queryset.filter(~Q(value__gte=0) | ~Q(value__lt=1)))
 ```
+
+##### [](#header-5)count()
+
+Returns an integer representing the number of objects in the `QuerySet`. Same
+as performing a `len()` on the `QuerySet`.
+
+```py
+>>> # Number of entries whose headline contains 'Lennon'
+>>> Entry.objects.filter(headline__contains='Lennon').count()
+7
+```
+
+##### [](#header-5)delete()
+
+Removes all objects in the `QuerySet`, and returns the number of objects
+deleted and a dictionary with the number of deletions per object type.
+
+{:.panel-success} Small note to test a styling.
+
+
+```py
+>>> # Delete entries whose headline contains 'Lennon'
+>>> Entry.objects.filter(headline__contains='Lennon').delete()
+(7, {'Entry': 7})
+```
