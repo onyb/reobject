@@ -26,8 +26,13 @@ class QuerySet(list):
         return len(self)
 
     def delete(self):
+        _len = self.count()
+        _type = self.model.__name__
+
         for item in self:
             item.delete()
+
+        return _len, {_type: _len}
 
     def distinct(self, *attrs):
         if not attrs:

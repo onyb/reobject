@@ -46,8 +46,10 @@ class TestQuerySet(unittest.TestCase):
         SomeModel(p='foo')
         SomeModel(p='bar')
 
-        SomeModel.objects.filter(p='bar').delete()
+        _len, _type = SomeModel.objects.filter(p='bar').delete()
         self.assertFalse(SomeModel.objects.filter(p='bar').exists())
+        self.assertEqual(_len, 1)
+        self.assertEqual(_type, {'SomeModel': 1})
 
     def test_distinct(self):
         SomeModel(p='foo')
