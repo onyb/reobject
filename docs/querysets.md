@@ -91,8 +91,9 @@ as performing a `len()` on the `QuerySet`.
 Removes all objects in the `QuerySet`, and returns the number of objects
 deleted and a dictionary with the number of deletions per object type.
 
-<p class="note">Deleting an object untracks it from reobject store, and
-doesn't actually garbage collect it.
+<p class="note">
+  <strong>Note:</strong> Deleting an object untracks it from reobject store,
+  and doesn't actually garbage collect it.
 </p>
 
 ```py
