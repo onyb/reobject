@@ -91,14 +91,9 @@ as performing a `len()` on the `QuerySet`.
 Removes all objects in the `QuerySet`, and returns the number of objects
 deleted and a dictionary with the number of deletions per object type.
 
-<div class="ui icon info message">
-  <i class="inbox icon"></i>
-  <div class="content">
-    <p>Deleting an object untracks it from reobject store, and doesn't
-actually garbage collect it.
-    </p>
-  </div>
-</div>
+<p class="note">Deleting an object untracks it from reobject store, and
+doesn't actually garbage collect it.
+</p>
 
 ```py
 >>> # Delete entries whose headline contains 'Lennon'

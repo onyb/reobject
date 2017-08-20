@@ -3,23 +3,8 @@
 
 @import "{{ site.theme }}";
 
-.panel {
-  border: 1px solid #ccc;
-  padding: 10px;
-  color: #333;
-}
-
-.panel-success {
-  @extend .panel;
-  border-color: green;
-}
-
-.panel-error {
-  @extend .panel;
-  border-color: red;
-}
-
-.panel-warning {
-  @extend .panel;
-  border-color: yellow;
+.note {
+  border: 1px solid #276F86;
+  background-color: #F8FFFF;
+  color: #276F86;
 }
