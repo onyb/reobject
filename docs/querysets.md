@@ -125,8 +125,8 @@ Returns the latest object in the queryset, by date, using the `fieldname`.
 By default, the `created` field is used as `fieldname`.
 
 ```py
->>> # Most recently updated entry whose headline contains 'Lennon'
->>> Entry.objects.filter(headline__contains='Lennon').latest('updated')
+>>> # Most recently updated entry whose headline is 'Lennon'
+>>> Entry.objects.filter(headline='Lennon').latest('updated')
 ```
 
 ##### [](#header-5)earliest(field_name='created')
