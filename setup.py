@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='reobject',
-    version='0.9a1',
+    version='0.9a2',
     description='Python without ifs and buts',
     url='https://github.com/onyb/reobject',
     author='Anirudha Bose',
