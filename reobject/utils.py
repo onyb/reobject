@@ -19,18 +19,11 @@ def cmp(*attrs):
 def attrgetter(*items):
     if any(not isinstance(item, str) for item in items):
         raise TypeError('attribute name must be a string')
-    if len(items) == 1:
-        attr = items[0]
 
-        def g(obj):
-            return tuple(
-                [resolve_attr(obj, attr)]
-            )
-    else:
-        def g(obj):
-            return tuple(
-                resolve_attr(obj, attr) for attr in items
-            )
+    def g(obj):
+        return tuple(
+            resolve_attr(obj, attr) for attr in items
+        )
     return g
 
 
