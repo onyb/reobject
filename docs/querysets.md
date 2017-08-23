@@ -9,8 +9,6 @@ The result of a reobject query is a QuerySet.
 ### [](#header-2)Methods that return new QuerySets
 
 
-##### [](#header-5)all()
-
 ##### [](#header-5)filter(*args, **kwargs)
 
 Returns a new `QuerySet` containing objects that match the given lookup
@@ -47,6 +45,25 @@ For example, some ways to filter all objects in `queryset` where
 >>> # Arg-only query with a single Q object: Q & Q => Q
 >>> queryset.filter(Q(value__gte=0) & Q(value__lt=1))
 ```
+
+##### [](#header-5)get(*args, **kwargs)
+
+Returns the object matching the given lookup parameters.
+The lookup parameter syntax is same as that in `filter()`.
+
+`get()` raises `MultipleObjectsReturned` if more than one object was found.
+
+`get()` raises a `DoesNotExist` exception if an object wasn’t found for the given parameters.
+
+Example:
+
+```py
+>>> queryset.get(nom='Doe', prenom='John')
+```
+
+##### [](#header-5)all()
+
+Returns the same queryset on which it is operated on. It is an identity method. 
 
 ##### [](#header-5)exclude(*args, **kwargs)
 
@@ -92,8 +109,8 @@ Removes all objects in the `QuerySet`, and returns the number of objects
 deleted and a dictionary with the number of deletions per object type.
 
 <p class="note">
-  <strong>Note:</strong> Deleting an object untracks it from reobject store,
-  and doesn't actually garbage collect it.
+  <strong>Note:</strong> Deleting an object only untracks it from reobject
+  store, and doesn't actually garbage collect it.
 </p>
 
 ```py
@@ -101,3 +118,39 @@ deleted and a dictionary with the number of deletions per object type.
 >>> Entry.objects.filter(headline__contains='Lennon').delete()
 (7, {'Entry': 7})
 ```
+
+##### [](#header-5)latest(field_name='created')
+
+Returns the latest object in the queryset, by date, using the `fieldname`.
+By default, the `created` field is used as `fieldname`.
+
+```py
+>>> # Most recently updated entry whose headline contains 'Lennon'
+>>> Entry.objects.filter(headline__contains='Lennon').latest('updated')
+```
+
+##### [](#header-5)earliest(field_name='created')
+
+Works otherwise like `latest()` except the direction is changed.
+
+##### [](#header-5)last()
+
+Returns the last object matched by the queryset, or `None`
+if there is no matching object.
+
+##### [](#header-5)first()
+
+Works like `last()`, but returns the first object in the queryset.
+
+##### [](#header-5)reverse()
+
+Reverses the order in which a queryset’s elements are returned.
+
+##### [](#header-5)random()
+
+Returns a random object matched by the queryset, or `None`
+if there is no matching object.
+
+##### [](#header-5)none()
+
+Returns instance of an `EmptyQuerySet`.
