@@ -85,8 +85,8 @@ class QuerySet(list):
         else:
             return obj
 
-    def get(self, **kwargs):
-        result_set = self.filter(**kwargs)
+    def get(self, *args, **kwargs):
+        result_set = self.filter(*args, **kwargs)
 
         if len(result_set) == 0:
             raise DoesNotExist(
