@@ -171,6 +171,12 @@ class Manager(object):
         """
         return self.all().random()
 
+    def map(self, func) -> object:
+        """
+        Returns a random model instance.
+        """
+        return self.all().map(func)
+
     def __repr__(self):
         return '<{manager}: {model}>'.format(
             manager=type(self).__name__, model=self.model.__name__

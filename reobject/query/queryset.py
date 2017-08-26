@@ -137,8 +137,13 @@ class QuerySet(list):
         else:
             return obj
 
-    def map(self, callable):
-        return map(callable, self)
+    def map(self, func):
+        if not callable(func):
+            raise TypeError(
+                'Expected a callable, got {}'.format(type(func))
+            )
+
+        return map(func, self)
 
     def none(self):
         return EmptyQuerySet(model=self.model)

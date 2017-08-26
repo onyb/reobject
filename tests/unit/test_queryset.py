@@ -344,3 +344,13 @@ class TestQuerySet(unittest.TestCase):
         obj = SomeModel.objects.random()
 
         self.assertIn(obj, SomeModel.objects.all())
+
+    def test_manager_map(self):
+        SomeModel(p='foo', q=1)
+        SomeModel(p='bar', q=2)
+
+        result = SomeModel.objects.map(
+            func=lambda obj: obj.p.upper()
+        )
+
+        self.assertEqual(set(result), {'FOO', 'BAR'})

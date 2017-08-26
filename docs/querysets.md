@@ -204,3 +204,17 @@ example of `order_by()`.
 [Character(first_name='Robert', last_name='Baratheron'),
  Character(first_name='Catelyn', last_name='Stark')]
 ```
+
+##### [](#header-5)map(func)
+
+Applies a `callable` function on each item in the `QuerySet` and yields
+a generator `map` object containing the result.
+
+**Example:**
+```py
+>>> queryset
+[Character(first_name='robert', last_name='baratheron'),
+ Character(first_name='catelyn', last_name='stark')]
+>>> list(queryset.map(lambda x: x.first_name.upper()))
+['ROBERT', 'CATELYN']
+```
