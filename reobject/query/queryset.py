@@ -171,32 +171,32 @@ class QuerySet(list):
             model=self.model
         )
 
-    def values(self, *attrs):
-        if not attrs:
-            attrs = self._attrs
+    def values(self, *fields):
+        if not fields:
+            fields = self._attrs
 
         return type(self)(
             (
-                dict(zip(attrs, obj))
-                for obj in map(cmp(*attrs), self)
+                dict(zip(fields, obj))
+                for obj in map(cmp(*fields), self)
             ),
             model=self.model
         )
 
-    def values_list(self, *attrs, flat=False):
+    def values_list(self, *fields, flat=False):
         # TODO: Allow order_by on values_list
 
-        if not attrs:
-            attrs = self._attrs
+        if not fields:
+            fields = self._attrs
 
-        if len(attrs) > 1 and flat:
+        if len(fields) > 1 and flat:
             raise TypeError(
                 '/flat/ is not valid when values_list is called with more than '
                 'one field.'
             )
 
         return type(self)(
-            (flatmap if flat else map)(cmp(*attrs), self),
+            (flatmap if flat else map)(cmp(*fields), self),
             model=self.model
         )
 

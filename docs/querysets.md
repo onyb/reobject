@@ -218,3 +218,31 @@ a generator `map` object containing the result.
 >>> list(queryset.map(lambda x: x.first_name.upper()))
 ['ROBERT', 'CATELYN']
 ```
+
+##### [](#header-5)values(*fields)
+
+Returns a `QuerySet` that returns dictionaries, rather than model instances.
+Each of those dictionaries represents an object, with the keys corresponding
+to the attribute names of model objects.
+
+If no field is specified, the dictionaries will contain all the attributes.
+
+**Example:**
+
+```py
+>>> Book.objects.filter(price__lt=50).values('title')
+[{'title': 'The Go Programming Language'}, {'title': 'The C Programming Language'}]
+```
+
+##### [](#header-5)values_list(*fields, flat=False)
+
+Same as `values()`, but returns tuples instead of dictionaries.
+
+For one-tuple values, passing the `flat` parameter will flatten them and return
+single values.
+
+**Example:**
+```py
+>>> Character.objects.filter().values_list('first_name', flat=True)
+['Robert', 'Catelyn', 'Ned']
+```
