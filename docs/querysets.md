@@ -154,3 +154,53 @@ if there is no matching object.
 ##### [](#header-5)none()
 
 Returns instance of an `EmptyQuerySet`.
+
+##### [](#header-5)order_by(*fields)
+
+Returns a `QuerySet` ordered by `fields`. Ascending order is implied by default.
+
+Example:
+
+```py
+>>> Character.objects.all()
+[Character(first_name='Ned', last_name='Stark'),
+ Character(first_name='Catelyn', last_name='Stark'),
+ Character(first_name='Arya', last_name='Stark'),
+ Character(first_name='Robert', last_name='Baratheron')]
+
+>>> Character.objects.filter().order_by('last_name', 'first_name')
+[Character(first_name='Robert', last_name='Baratheron'),
+ Character(first_name='Catelyn', last_name='Stark'),
+ Character(first_name='Ned', last_name='Stark')]
+```
+
+<p class="note">
+  <strong>Note:</strong> To indicate descending order, prepend the ordering 
+  field with a negative sign, like `-age`. Ordering by descending order is
+  only supported for integer fields.
+</p>
+
+
+##### [](#header-5)distinct(*fields)
+
+Returns a new `QuerySet` with all objects with duplicate fields removed.
+
+For a `distinct()` call without arguments, each field in each object
+is compared when determining which objects are distinct. For a `distinct()`
+call with specified field names, only the specified field names are compared.
+
+<p class="note">
+  <strong>Note:</strong> Performing distinct() gives you the first object for
+  each duplicate entry. It is therefore important to make sure that the
+  queryset on which `distinct()` is applied, has been ordered using
+  `order_by()`. If you don't specify an order, you'll get some arbitrary row.
+</p>
+
+Example: applying `distinct()` by `last_name` on the queryset defined in the
+example of `order_by()`.
+
+```py
+>>> queryset.distinct('last_name')
+[Character(first_name='Robert', last_name='Baratheron'),
+ Character(first_name='Catelyn', last_name='Stark')]
+```
