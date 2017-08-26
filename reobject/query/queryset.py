@@ -46,7 +46,7 @@ class QuerySet(list):
         return type(self)(
             OrderedDict(meta).values(),
             model=self.model
-        )
+        ).reverse()
 
     def earliest(self, field_name='created'):
         try:
