@@ -159,13 +159,12 @@ Returns instance of an `EmptyQuerySet`.
 
 Returns a `QuerySet` ordered by `fields`. Ascending order is implied by default.
 
-Example:
+**Example:**
 
 ```py
 >>> Character.objects.all()
 [Character(first_name='Ned', last_name='Stark'),
  Character(first_name='Catelyn', last_name='Stark'),
- Character(first_name='Arya', last_name='Stark'),
  Character(first_name='Robert', last_name='Baratheron')]
 
 >>> Character.objects.filter().order_by('last_name', 'first_name')
@@ -176,8 +175,8 @@ Example:
 
 <p class="note">
   <strong>Note:</strong> To indicate descending order, prepend the ordering 
-  field with a negative sign, like `-age`. Ordering by descending order is
-  only supported for integer fields.
+  field with a negative sign, like <code>-age</code>. Ordering by descending
+  order is only supported for integer fields.
 </p>
 
 
@@ -190,13 +189,14 @@ is compared when determining which objects are distinct. For a `distinct()`
 call with specified field names, only the specified field names are compared.
 
 <p class="note">
-  <strong>Note:</strong> Performing distinct() gives you the first object for
-  each duplicate entry. It is therefore important to make sure that the
-  queryset on which `distinct()` is applied, has been ordered using
-  `order_by()`. If you don't specify an order, you'll get some arbitrary row.
+  <strong>Note:</strong> Performing <code>distinct()</code> gives you the
+  first object for each duplicate entry. It is therefore important to make
+  sure that the queryset on which <code>distinct()</code> is applied, has
+  been ordered using <code>order_by()</code>. If you don't specify an order,
+  you'll get some arbitrary row.
 </p>
 
-Example: applying `distinct()` by `last_name` on the queryset defined in the
+**Example:** applying `distinct()` by `last_name` on the queryset defined in the
 example of `order_by()`.
 
 ```py
