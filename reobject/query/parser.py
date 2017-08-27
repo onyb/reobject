@@ -1,5 +1,6 @@
 import operator
 from functools import reduce
+from collections import Iterable
 
 from reobject.utils import cmp
 
@@ -74,7 +75,14 @@ class _Q(object):
             return value == self.value
 
         elif self.verb == 'icontains':
-            return self.value.casefold() in value.casefold()
+            if isinstance(value, str):
+                return self.value.casefold() in value.casefold()
+            elif isinstance(value, Iterable):
+                return self.value.casefold() in map(str.casefold, value)
+            else:
+                raise TypeError(
+                    'Unrecognized type: {}'.format(type(value))
+                )
 
         elif self.verb == 'iendswith':
             return value.casefold().endswith(self.value.casefold())
@@ -83,7 +91,15 @@ class _Q(object):
             return value.casefold() == self.value.casefold()
 
         elif self.verb == 'iin':
-            return value.casefold() in map(str.casefold, self.value)
+            if isinstance(self.value, str):
+                return value.casefold() in self.value.casefold()
+            elif isinstance(self.value, Iterable):
+                # Iterable but not an str
+                return value.casefold() in map(str.casefold, self.value)
+            else:
+                raise TypeError(
+                    'Unrecognized type: {}'.format(type(self.value))
+                )
 
         elif self.verb == 'istartswith':
             return value.casefold().startswith(self.value.casefold())

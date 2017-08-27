@@ -13,6 +13,10 @@ class NumericSecret(object):
     def __init__(self, gem=7):
         self.gem = gem
 
+class IterableSecret(object):
+    def __init__(self, gem=('A', 'B', 'C',)):
+        self.gem = gem
+
 
 class SecretModel(Model):
     question = Field(default='')
@@ -45,6 +49,10 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__contains='rby')
         self.assertFalse(q_obj.comparator(obj))
 
+        q_obj = Q(secret__gem__contains='C')
+        obj = SecretModel(secret=IterableSecret())
+        self.assertTrue(q_obj.comparator(obj))
+
     def test_nested_endswith(self):
         q_obj = Q(secret__gem__endswith='uby')
         obj = SecretModel(secret=StringSecret())
@@ -69,6 +77,10 @@ class TestQ(unittest.TestCase):
     def test_nested_icontains(self):
         q_obj = Q(secret__gem__icontains='UB')
         obj = SecretModel(secret=StringSecret())
+        self.assertTrue(q_obj.comparator(obj))
+
+        q_obj = Q(secret__gem__icontains='c')
+        obj = SecretModel(secret=IterableSecret())
         self.assertTrue(q_obj.comparator(obj))
 
     def test_iexact(self):
