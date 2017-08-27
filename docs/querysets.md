@@ -6,7 +6,7 @@ layout: default
 
 The result of a reobject query is a QuerySet.
 
-### [](#header-2)Methods that return new QuerySets
+#### [](#header-2)QuerySet methods
 
 
 ##### [](#header-5)filter(*args, **kwargs)
@@ -231,7 +231,7 @@ If no field is specified, the dictionaries will contain all the attributes.
 
 ```py
 >>> Book.objects.filter(price__lt=50).values('title')
-[{'title': 'The Go Programming Language'}, {'title': 'The C Programming Language'}]
+[{'title': 'The Go Programming Language'}, ...]
 ```
 
 ##### [](#header-5)values_list(*fields, flat=False)
@@ -246,3 +246,135 @@ single values.
 >>> Character.objects.filter().values_list('first_name', flat=True)
 ['Robert', 'Catelyn', 'Ned']
 ```
+
+#### [](#header-2)Field lookups
+
+Field lookup parameters are specified as keyword arguments to the `QuerySet`
+methods `filter()`, `exclude()` and `get()`.
+
+By default, when no lookup type is provided the lookup type is assumed to be
+`exact`.
+
+##### [](#header-5)exact
+
+Exact match.
+
+**Examples:**
+
+```py
+>>> Entry.objects.get(id__exact=14)
+>>> Entry.objects.get(id__exact=None)
+```
+
+##### [](#header-5)iexact
+
+Case-insensitive exact match.
+
+**Examples:**
+
+```py
+>>> Character.objects.get(first_name__iexact='NeD')
+Character(first_name='Ned', last_name='Stark')
+```
+
+##### [](#header-5)contains
+
+Case-sensitive containment test.
+
+**Examples:**
+
+```py
+>>> Character.objects.filter(first_name__contains='Cate')
+Character(first_name='Catelyn', last_name='Stark')
+
+>>> # Also works for non-string iterables
+>>> SomeModel.objects.filter(list_attr__contains='item')
+SomeModel(list_attr=['item', 'another item', ...])
+```
+
+##### [](#header-5)icontains
+
+Case-insensitive containment test.
+
+**Examples:**
+
+```py
+>>> Character.objects.filter(first_name__icontains='cAtE')
+Character(first_name='Catelyn', last_name='Stark')
+
+>>> # Also works for non-string iterables
+>>> SomeModel.objects.filter(list_attr__icontains='item')
+SomeModel(list_attr=['ITEM', ...])
+```
+
+##### [](#header-5)in
+
+In a given list.
+
+**Examples:**
+
+```py
+>>> Character.objects.filter(last_name__in='Starks')
+[Character(first_name='Ned', last_name='Stark'),
+ Character(first_name='Catelyn', last_name='Stark')]
+
+>>> # Also works for non-string iterables
+>>> Character.objects.filter(last_name__in=['Stark', 'Baratheon'])
+[Character(first_name='Ned', last_name='Stark'),
+ Character(first_name='Catelyn', last_name='Stark'),
+ Character(first_name='Robert', last_name='Baratheron')]
+```
+
+##### [](#header-5)iin
+
+Case-insensitive lookup in a given list.
+
+**Examples:**
+
+```py
+>>> Character.objects.filter(last_name__iin='starks')
+[Character(first_name='Ned', last_name='Stark'),
+ Character(first_name='Catelyn', last_name='Stark')]
+
+>>> # Also works for non-string iterables
+>>> Character.objects.filter(last_name__iin=['stark', 'baratheon'])
+[Character(first_name='Ned', last_name='Stark'),
+ Character(first_name='Catelyn', last_name='Stark'),
+ Character(first_name='Robert', last_name='Baratheron')]
+```
+
+##### [](#header-5)gt
+
+Greater than.
+
+##### [](#header-5)gte
+
+Greater than or equal to.
+
+##### [](#header-5)lt
+
+Less than.
+
+##### [](#header-5)lte
+
+Less than or equal to.
+
+##### [](#header-5)startswith
+
+Case-sensitive starts-with.
+
+##### [](#header-5)istartswith
+
+Case-insensitive starts-with.
+
+##### [](#header-5)endsswith
+
+Case-sensitive ends-with.
+
+##### [](#header-5)iendswith
+
+Case-insensitive ends-with.
+
+##### [](#header-5)isnone
+
+Checks if the value is equal to Python `NoneType`.
