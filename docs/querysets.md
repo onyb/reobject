@@ -6,7 +6,7 @@ layout: default
 
 The result of a reobject query is a QuerySet.
 
-#### [](#header-2)QuerySet methods
+### [](#header-2)QuerySet methods
 
 
 ##### [](#header-5)filter(*args, **kwargs)
@@ -247,7 +247,7 @@ single values.
 ['Robert', 'Catelyn', 'Ned']
 ```
 
-#### [](#header-2)Field lookups
+### [](#header-2)Field lookups
 
 Field lookup parameters are specified as keyword arguments to the `QuerySet`
 methods `filter()`, `exclude()` and `get()`.
