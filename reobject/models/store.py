@@ -1,4 +1,4 @@
-ModelStoreMapping: dict = dict()
+ModelStoreMapping = dict()
 
 
 class Store(list):
