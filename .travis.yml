@@ -14,4 +14,6 @@ script:
   - py.test tests --cov=./reobject
   - PYTHONPATH=`pwd` py.test examples/*
 
-after_success: codecov
+after_success:
+  - codecov
+  - mypy reobject || true

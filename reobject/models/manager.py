@@ -11,7 +11,7 @@ class ManagerDescriptor(object):
     def __init__(self):
         self.manager = None
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance, owner) -> 'Manager':
         if instance is not None:
             raise AttributeError(
                 "Manager isn't accessible via %s instances" % owner.__name__
@@ -30,7 +30,7 @@ class RelatedManagerDescriptor(object):
     def __init__(self, model):
         self.model = model
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance, owner)-> 'Manager':
         if instance is None:
             raise AttributeError(
                 "RelatedManager isn't accessible via %s class" % owner.__name__
@@ -72,13 +72,13 @@ class Manager(object):
     def store(self):
         return ModelStoreMapping.get(self.model.__name__)
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         return QuerySet(
             self.store,
             model=self.model
         )
 
-    def add(self, instance: object) -> object:
+    def add(self, instance: 'Model') -> 'Model':
         if not isinstance(instance, self.model):
             raise TypeError(
                 '{model} instance expected, got {obj}'.format(
@@ -165,7 +165,7 @@ class Manager(object):
         """
         return EmptyQuerySet(model=self.model)
 
-    def random(self) -> object:
+    def random(self) -> 'Model':
         """
         Returns a random model instance.
         """

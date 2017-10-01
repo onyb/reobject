@@ -181,3 +181,4 @@ pip-selfcheck.json
 # End of https://www.gitignore.io/api/python,pycharm,linux,virtualenv
 
 README.rst
+.mypy_cache

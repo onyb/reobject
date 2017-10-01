@@ -4,6 +4,7 @@ from collections import Iterable
 
 from reobject.utils import cmp
 
+from ..types import LookupParams
 
 class _Q(object):
     verbs = (
@@ -25,7 +26,7 @@ class _Q(object):
         'startswith'
     )
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: LookupParams) -> None:
         if kwargs:
             attr, self.value = list(kwargs.items())[0]
 
@@ -47,13 +48,13 @@ class _Q(object):
         else:
             return value == self.value
 
-    def __and__(self, other):
+    def __and__(self, other: '_Q') -> '_Q':
         new = type(self)()
         new.comparator = lambda obj: self.comparator(obj) and \
                                      other.comparator(obj)
         return new
 
-    def __or__(self, other):
+    def __or__(self, other: '_Q') -> '_Q':
         new = type(self)()
         new.comparator = lambda obj: self.comparator(obj) or \
                                      other.comparator(obj)
@@ -127,7 +128,7 @@ class _Q(object):
 
 
 class Q(object):
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs: LookupParams) -> _Q:
         return reduce(
             operator.and_,
             map(lambda k: _Q(**{k: kwargs[k]}), kwargs),
@@ -135,7 +136,7 @@ class Q(object):
         )
 
     @classmethod
-    def from_Qs(cls, *args):
+    def from_Qs(cls, *args) -> _Q:
         return reduce(
             operator.and_,
             args,
