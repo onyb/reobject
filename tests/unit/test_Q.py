@@ -175,3 +175,31 @@ class TestQ(unittest.TestCase):
         q_obj = Q(secret__gem__istartswith='RUB')
         obj = SecretModel(secret={'gem': 'ruby'})
         self.assertTrue(q_obj.comparator(obj))
+
+    def test_Q_composition_AND(self):
+        Qa = Q(secret__gem__istartswith='RUB')
+        Qb = Q(secret__gem__iendswith='Y')
+
+        obj_ok = SecretModel(secret={'gem': 'ruby'})
+        self.assertTrue(
+            (Qa & Qb).comparator(obj_ok)
+        )
+
+        obj_nok = SecretModel(secret={'gem': 'shiny'})
+        self.assertFalse(
+            (Qa & Qb).comparator(obj_nok)
+        )
+
+    def test_Q_composition_OR(self):
+        Qa = Q(secret__gem__istartswith='RUB')
+        Qb = Q(secret__gem__iendswith='Y')
+
+        obj_ok = SecretModel(secret={'gem': 'ruby'})
+        self.assertTrue(
+            (Qa | Qb).comparator(obj_ok)
+        )
+
+        obj_ok2 = SecretModel(secret={'gem': 'shiny'})
+        self.assertTrue(
+            (Qa | Qb).comparator(obj_ok2)
+        )
