@@ -284,6 +284,13 @@ class TestQuerySet(unittest.TestCase):
             )
         )
 
+    def test_invalid_lookup_params(self):
+        SomeModel(p='foo', q=1)
+        SomeModel(p='bar', q=2)
+
+        with self.assertRaises(TypeError):
+            SomeModel.objects.all().values_list('p', 0)
+
     def test_values_list_flat(self):
         SomeModel(p='foo', q=1)
         SomeModel(p='bar', q=2)
