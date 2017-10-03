@@ -13,6 +13,7 @@ class NumericSecret(object):
     def __init__(self, gem=7):
         self.gem = gem
 
+
 class IterableSecret(object):
     def __init__(self, gem=('A', 'B', 'C',)):
         self.gem = gem
@@ -168,4 +169,9 @@ class TestQ(unittest.TestCase):
     def test_nested_istartswith(self):
         q_obj = Q(secret__gem__istartswith='RUB')
         obj = SecretModel(secret=StringSecret())
+        self.assertTrue(q_obj.comparator(obj))
+
+    def test_nested_dict_istartswith(self):
+        q_obj = Q(secret__gem__istartswith='RUB')
+        obj = SecretModel(secret={'gem': 'ruby'})
         self.assertTrue(q_obj.comparator(obj))
