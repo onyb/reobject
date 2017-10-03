@@ -65,9 +65,6 @@ class Manager(object):
     def __init__(self, model):
         self.model = model
 
-    def __contains__(self, item):
-        return bool(self.get(name=item))
-
     @property
     def store(self):
         return ModelStoreMapping.get(self.model.__name__)
