@@ -5,8 +5,11 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/reobject.svg)](https://pypi.python.org/pypi/reobject)
 [![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
 
-*reobject* is an ORM layer for your objects. Simply, add a mixin to your Python
-class and magically assume the ability to track and query objects at runtime!
+*reobject* is an ORM layer for your objects. Track and query objects at runtime
+using a familiar query langauge inspired by Django ORM
+
+
+**This is a highly experimental code.**
 
 ### Installation
 
@@ -44,10 +47,10 @@ class Book(Model):
 
 * Elegant data-model syntax inspired by Django ORM.
 * Class-level model fields, out of the box object protocols, pretty reprs; powered by [attrs](http://attrs.org).
-* Chainable operations on querysets.
-* Transactions.
+* Advanced query language and chainable querysets. Read the [QuerySet API docs](https://onyb.github.io/reobject/querysets).
+* Transactions. See [example](tests/unit/test_transaction.py#L7-L13).
+* Many-to-one model relationships. See [example](tests/unit/test_manager.py#L61-L108)
 * [TBA] Attribute indexes for fast lookups.
-* [TBA] Many-to-one class relationships.
 
 ### Crunching Design Patterns
 
@@ -70,9 +73,9 @@ class Book(Model):
 
 ### Contributing
 
-Want to help? For a start, you can contribute to the project by:
+Want to help? You can contribute to the project by:
 
-* Using reobject in your projects, proposing new features, or trying it out just for fun.
+* Using reobject in your projects, finding bugs, and proposing new features.
 * Sending pull requests with recipes cooked using reobject.
 * Trying your hand at some [good first bugs](https://github.com/onyb/reobject/issues?q=is%3Aissue+is%3Aopen+label%3Abitesize).
 * Improving test coverage, and writing documentation.
