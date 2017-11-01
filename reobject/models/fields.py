@@ -8,11 +8,11 @@ def Field(*args, default=attr.NOTHING, **kwargs):
     return attr.ib(*args, default=default, **kwargs)
 
 
-def ManyToManyField(cls, *args, **kwargs):
+def ForeignKey(cls, *args, **kwargs):
     metadata = {
         'related': {
             'target': cls,
-            'type': 'ManyToMany',
+            'type': 'ForeignKey',
         }
     }
 

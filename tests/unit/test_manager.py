@@ -1,7 +1,7 @@
 import unittest
 from datetime import datetime
 
-from reobject.models.fields import Field, ManyToManyField
+from reobject.models.fields import Field, ForeignKey
 from reobject.models.manager import Manager
 from reobject.models.model import Model
 
@@ -63,7 +63,7 @@ class Teacher(Model):
 
 
 class Student(Model):
-    teacher = ManyToManyField(Teacher)
+    teacher = ForeignKey(Teacher)
 
 
 class TestRelatedManager(unittest.TestCase):
