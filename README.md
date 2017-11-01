@@ -5,11 +5,11 @@
 [![PyPI](https://img.shields.io/pypi/pyversions/reobject.svg)](https://pypi.python.org/pypi/reobject)
 [![codecov](https://codecov.io/gh/onyb/reobject/branch/master/graph/badge.svg)](https://codecov.io/gh/onyb/reobject)
 
-*reobject* is an ORM layer for your objects. Track and query objects at runtime
-using a familiar query langauge inspired by Django ORM
+*reobject* is an ORM layer for your objects. It allows you to track and query
+objects at runtime using a familiar query langauge inspired by Django ORM.
 
 
-**This is a highly experimental code.**
+**This is highly experimental code, and not safe for production.**
 
 ### Installation
 
