@@ -183,7 +183,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(obj.p, 'bar')
 
     def test_none(self):
-        self.assertFalse(SomeModel.objects.none().exists())
+        self.assertFalse(SomeModel.objects.all().none().exists())
 
     def test_order_by(self):
         SomeModel(p='foo', q=3)
@@ -324,6 +324,9 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertEqual(obj.q, 1)
 
+    def test_first_none(self):
+        self.assertIsNone(SomeModel.objects.first())
+
     def test_last(self):
         SomeModel(p='foo', q=1)
         SomeModel(p='bar', q=2)
@@ -341,6 +344,9 @@ class TestQuerySet(unittest.TestCase):
         obj = SomeModel.objects.last()
 
         self.assertEqual(obj.q, 2)
+
+    def test_last_none(self):
+        self.assertIsNone(SomeModel.objects.last())
 
     def test_manager_random(self):
         self.assertIsNone(SomeModel.objects.random())
@@ -361,3 +367,20 @@ class TestQuerySet(unittest.TestCase):
         )
 
         self.assertEqual(set(result), {'FOO', 'BAR'})
+
+    def test_map(self):
+        SomeModel(p='foo', q=1)
+        SomeModel(p='bar', q=2)
+
+        result = SomeModel.objects.filter().map(
+            func=lambda obj: obj.p.upper()
+        )
+
+        self.assertEqual(set(result), {'FOO', 'BAR'})
+
+    def test_manager_map_non_callable(self):
+        SomeModel(p='foo', q=1)
+        SomeModel(p='bar', q=2)
+
+        with self.assertRaises(TypeError):
+            result = SomeModel.objects.map(func=1)
