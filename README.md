@@ -63,7 +63,7 @@ class Book(Model):
 | Facade        | Encapsulate a complex subsystem within a single interface object | [Link](https://github.com/faif/python-patterns/blob/master/structural/facade.py) | [Link](examples/facade.py) |
 | Flux          | Event-driven state management inspired by Facebook Flux  | [Link](https://github.com/onyb/python-flux/blob/master/flux/store.py) | [Link](examples/flux.py) |
 
-<sub><b>Note:</b> Some of the examples in table may be inaccurate. The idea is to demonstrate what <i>reobject</i> is capable of. Pull requests are most welcome.</sub>
+<sub><b>Note:</b> Some of the examples above may be inaccurate. The idea is to demonstrate what <i>reobject</i> is capable of. Pull requests are most welcome.</sub>
 
 ### Contributing
 
