@@ -325,7 +325,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(obj.q, 1)
 
     def test_first_none(self):
-        self.assertIsNone(SomeModel.objects.first())
+        self.assertIsNone(SomeModel.objects.all().first())
 
     def test_last(self):
         SomeModel(p='foo', q=1)
@@ -346,7 +346,7 @@ class TestQuerySet(unittest.TestCase):
         self.assertEqual(obj.q, 2)
 
     def test_last_none(self):
-        self.assertIsNone(SomeModel.objects.last())
+        self.assertIsNone(SomeModel.objects.all().last())
 
     def test_manager_random(self):
         self.assertIsNone(SomeModel.objects.random())
