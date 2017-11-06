@@ -63,21 +63,13 @@ class Book(Model):
 | Facade        | Encapsulate a complex subsystem within a single interface object | [Link](https://github.com/faif/python-patterns/blob/master/structural/facade.py) | [Link](examples/facade.py) |
 | Flux          | Event-driven state management inspired by Facebook Flux  | [Link](https://github.com/onyb/python-flux/blob/master/flux/store.py) | [Link](examples/flux.py) |
 
-<sub><b>Note:</b> The idea is not to provide accurate implementations of various patterns, but to demonstrate what <i>reobject</i> is capable of. Pull requests are most welcome.</sub>
-
-### Why?
-
-* Your boss asked you to refactor a codebase with years of accumulated code-vomit.
-* Your code is starting to look like a Christmas tree.
-* You want to implement/invent design patterns without the boilerplate.
+<sub><b>Note:</b> Some of the examples in table may be inaccurate. The idea is to demonstrate what <i>reobject</i> is capable of. Pull requests are most welcome.</sub>
 
 ### Contributing
 
 Want to help? You can contribute to the project by:
 
 * Using reobject in your projects, finding bugs, and proposing new features.
-* Sending pull requests with recipes cooked using reobject.
+* Sending pull requests with recipes built using reobject.
 * Trying your hand at some [good first bugs](https://github.com/onyb/reobject/issues?q=is%3Aissue+is%3Aopen+label%3Abitesize).
 * Improving test coverage, and writing documentation.
-
-<sub>I even added some [Contributing guidelines](CONTRIBUTING.md) to make GitHub happy.</sub>
