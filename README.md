@@ -13,6 +13,8 @@ objects at runtime using a familiar query langauge inspired by Django ORM.
 
 ### Installation
 
+*reobject* supports Python 3 only.
+
 ```sh
 pip install reobject
 ```
