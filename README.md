@@ -8,6 +8,8 @@
 *reobject* is an ORM layer for your objects. It allows you to track and query
 objects at runtime using a familiar query langauge inspired by Django ORM.
 
+**Note:** *reobject* is **NOT** a database ORM. It keeps track of regular objects in the memory.
+
 
 **This is highly experimental code, and not safe for production.**
 
