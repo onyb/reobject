@@ -118,11 +118,11 @@ class Manager(object):
 
         return self.all().earliest(field_name)
 
-    def exclude(self, **kwargs):
-        return self.all().exclude(**kwargs)
+    def exclude(self, *args, **kwargs):
+        return self.all().exclude(*args, **kwargs)
 
-    def filter(self, **kwargs):
-        return self.all().filter(**kwargs)
+    def filter(self, *args, **kwargs):
+        return self.all().filter(*args, **kwargs)
 
     def first(self) -> object:
         """
