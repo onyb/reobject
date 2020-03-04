@@ -51,7 +51,7 @@ class Book(Model):
 
 * Elegant data-model syntax inspired by Django ORM.
 * Class-level model fields, out of the box object protocols, pretty reprs; powered by [attrs](http://attrs.org).
-* Advanced query language and chainable querysets. Read the [QuerySet API docs](https://onyb.github.io/reobject/querysets).
+* Advanced query language and chainable querysets. Read the [QuerySet API docs](https://anirudha.co/reobject).
 * Transactions. See [example](tests/unit/test_transaction.py#L7-L13).
 * Many-to-one model relationships. See [example](tests/unit/test_manager.py#L61-L108)
 * [TBA] Attribute indexes for fast lookups.
