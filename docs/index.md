@@ -151,6 +151,10 @@ Reverses the order in which a queryset’s elements are returned.
 Returns a random object matched by the queryset, or `None`
 if there is no matching object.
 
+##### [](#header-5)random_queryset(maximum: int = None)
+
+Returns a random objects matched by the queryset.
+
 ##### [](#header-5)none()
 
 Returns instance of an `EmptyQuerySet`.
