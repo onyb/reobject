@@ -358,6 +358,14 @@ class TestQuerySet(unittest.TestCase):
 
         self.assertIn(obj, SomeModel.objects.all())
 
+    def test_manager_random_queryset(self):
+        SomeModel(p='foo', q=1)
+        SomeModel(p='bar', q=2)
+
+        objs = SomeModel.objects.random_queryset()
+        for obj in objs:
+            self.assertIn(obj, SomeModel.objects.all())
+
     def test_manager_map(self):
         SomeModel(p='foo', q=1)
         SomeModel(p='bar', q=2)
