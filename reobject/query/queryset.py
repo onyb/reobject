@@ -172,7 +172,7 @@ class QuerySet(list):
         else:
             return obj
 
-    def random_queryset(self, maximum: None) -> 'QuerySet':
+    def random_queryset(self, maximum: int = None) -> 'QuerySet':
         _max = maximum or self.count()
         return type(self)(
             random.sample(self, _max),
@@ -197,7 +197,7 @@ class QuerySet(list):
             model=self.model
         )
 
-    def values_list(self, *fields: Fields, flat: bool=False) -> 'QuerySet':
+    def values_list(self, *fields: Fields, flat: bool = False) -> 'QuerySet':
         # TODO: Allow order_by on values_list
 
         if not fields:
