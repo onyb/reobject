@@ -172,6 +172,13 @@ class QuerySet(list):
         else:
             return obj
 
+    def random_queryset(self, maximum: None) -> 'QuerySet':
+        _max = maximum or self.count()
+        return type(self)(
+            random.sample(self, _max),
+            model=self.model
+        )
+
     def reverse(self) -> 'QuerySet':
         return type(self)(
             reversed(self),
